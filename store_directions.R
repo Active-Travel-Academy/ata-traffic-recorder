@@ -11,6 +11,8 @@ con <- dbConnect(
   password = Sys.getenv("LTN_PGPASSWORD")
 )
 
+set_key(Sys.getenv("GOOGLE_API_KEY"))
+
 # # Our default data
 # dbSendQuery(con, "INSERT INTO ltns (scheme_name) VALUES ('testing')")
 #
