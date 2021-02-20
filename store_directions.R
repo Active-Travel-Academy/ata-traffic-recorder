@@ -36,7 +36,7 @@ set_key(Sys.getenv("GOOGLE_API_KEY"))
 # dbClearResult(res)
 
 
-store_resp <- function(google_resp, run_id){
+store_resp <- function(google_resp, run_id, journey_id){
   leg <- resp$routes$legs[[1]]
   journey_run_insert <- dbSendQuery(
     con,
@@ -52,7 +52,7 @@ store_resp <- function(google_resp, run_id){
 }
 
 res <- dbSendQuery(con, "SELECT id from ltns")
-ltn_ids <- dbFetch(res)
+ltn_ids <- dbFetch(res)$id
 dbClearResult(res)
 
 journeys_query <- dbSendQuery(
@@ -60,19 +60,21 @@ journeys_query <- dbSendQuery(
   "SELECT id, origin_lat, origin_lng, dest_lat, dest_lng FROM journeys WHERE disabled = FALSE AND ltn_id = $1"
 )
 
-for(ltn_id in ltn_ids){
+for(n in 1:length(ltn_ids)){
+  ltn_id <- as.integer(ltn_ids[n])
   dbBind(journeys_query, ltn_id)
   journeys <- dbFetch(journeys_query)
   dbClearResult(journeys_query)
   run_insert <- dbSendQuery(con, "INSERT INTO runs (ltn_id, time) VALUES ($1, NOW()) RETURNING id", params = ltn_id)
-  run_id <- dbFetch(run_insert)$id
+  run_id <- as.integer(dbFetch(run_insert)$id)
   dbClearResult(run_insert)
-  for(journey in journeys){
+  for(journey_n in 1:nrow(journeys)){
+    journey <- journeys[journey_n,]
     resp <- google_directions(
       origin = c(journey$origin_lat,journey$origin_lng),
       destination = c(journey$dest_lat, journey$dest_lng),
       departure_time ='now'
     )
-    store_resp(resp, run_id)
+    store_resp(resp, run_id, journey$id)
   }
 }
