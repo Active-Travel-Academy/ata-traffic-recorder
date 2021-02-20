@@ -5,18 +5,27 @@ library(jsonlite)
 
 con <- dbConnect(
   RPostgres::Postgres(),
+  host = Sys.getenv("LTN_PGHOST"),
   dbname = 'ltns',
-  port = 5432, # or any other port specified by your DBA
-  user = 'r_program',
+  user = Sys.getenv("LTN_PGUSER"),
   password = Sys.getenv("LTN_PGPASSWORD")
 )
 
 set_key(Sys.getenv("GOOGLE_API_KEY"))
 
 # # Our default data
-# dbSendQuery(con, "INSERT INTO ltns (scheme_name) VALUES ('testing')")
 #
-# dbSendQuery(con,
+#
+# con <- dbConnect(
+#   RPostgres::Postgres(),
+#   host = Sys.getenv("LTN_PGHOST"),
+#   dbname = 'ltns',
+#   user = Sys.getenv("LTN_ASKER_PGUSER"),
+#   password = Sys.getenv("LTN_ASKER_PGPASSWORD")
+# )
+# res <- dbSendQuery(con, "INSERT INTO ltns (scheme_name) VALUES ('testing')")
+# dbClearResult(res)
+# res <- dbSendQuery(con,
 #             "
 #   INSERT INTO journeys (origin_lat, origin_lng, dest_lat, dest_lng, ltn_id)
 #   VALUES
@@ -24,7 +33,7 @@ set_key(Sys.getenv("GOOGLE_API_KEY"))
 #   (51.43953,-0.09780407,51.436982,-0.094408393, 1),
 #   (51.442025,-0.096731186,51.436982,-0.094408393, 1)"
 # )
-#
+# dbClearResult(res)
 
 
 store_resp <- function(google_resp, run_id){
