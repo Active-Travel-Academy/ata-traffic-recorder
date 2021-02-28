@@ -17,7 +17,7 @@ NOTE there was an issue with googlePolylines so might need to follow instruction
 Then add to the crontab
 
 ```
-0 8,11,14,15,20 * * * cd  /home/git/code/ltn-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ltn-traffic-recorder.log 2>&1
+0 5,8,11,14,17,20,23 * * * cd  /home/git/code/ltn-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ltn-traffic-recorder.log 2>&1
 ```
 
 ## Git
