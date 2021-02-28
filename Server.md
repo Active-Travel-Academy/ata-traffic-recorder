@@ -17,7 +17,7 @@ NOTE there was an issue with googlePolylines so might need to follow instruction
 Then add to the crontab
 
 ```
-0 5,8,11,14,17,20,23 * * * cd  /home/git/code/ltn-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ltn-traffic-recorder.log 2>&1
+0 5,8,11,14,17,20,23 * * * cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 ```
 
 ## Git
@@ -27,16 +27,16 @@ apt install git-core
 useradd git
 ```
 
-as git user create ltn-traffic-recorder:
+as git user create ata-traffic-recorder:
 ```bash
 su git
 cd /home/$USER
-mkdir ltn-traffic-recorder
-cd ltn-traffic-recorder
+mkdir ata-traffic-recorder
+cd ata-traffic-recorder
 git init --bare
 mv hooks/post-update.sample hooks/post-update
 # add checkout to the post-update hook
-mkdir -p code/ltn-traffic-recorder
+mkdir -p code/ata-traffic-recorder
 mkdir .ssh
 touch .ssh/authorized_keys
 chmod 700 .ssh
