@@ -17,7 +17,7 @@ NOTE there was an issue with googlePolylines so might need to follow instruction
 Then add to the crontab
 
 ```
-0 5,8,11,14,17,20,23 * * * cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
+0 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 * * * cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 ```
 
 ## Git
