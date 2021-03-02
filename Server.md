@@ -8,16 +8,15 @@ wget http://ftp.uk.debian.org/debian/pool/main/j/jq/libjq-dev_1.5+dfsg-1.3_amd64
 
 and install them with `dpkg -i`.
 Then in R we can install the required packages:
-```r
-pkgs <- c("googleway", "RPostgres", "DBI", "jsonlite")
-install.packages(pkgs)
+```bash
+R -e 'install.packages(c('googleway', 'RPostgres', 'DBI', 'jsonlite'), repos='https://cran.rstudio.com/')"
 ```
 NOTE there was an issue with googlePolylines so might need to follow instructions on [issue](https://github.com/SymbolixAU/googlePolylines/issues/50)
 
 Then add to the crontab
 
 ```
-0 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 * * * cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
+0 6-21 * * * cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 ```
 
 ## Git
@@ -34,8 +33,9 @@ cd /home/$USER
 mkdir ata-traffic-recorder
 cd ata-traffic-recorder
 git init --bare
-mv hooks/post-update.sample hooks/post-update
-# add checkout to the post-update hook
+cp hooks/post-update.sample hooks/post-update
+sed -i 's/^exec //' hooks/post-update
+echo 'echo `git --git-dir /home/git/ata-traffic-recorder --work-tree /home/git/code/ata-traffic-recorder checkout main -f`' >> hooks/post-update
 mkdir -p code/ata-traffic-recorder
 mkdir .ssh
 touch .ssh/authorized_keys
