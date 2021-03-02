@@ -43,7 +43,7 @@ store_resp <- function(google_resp, run_id, journey_id){
     "INSERT INTO journey_runs (journey_id, run_id, duration, duration_in_traffic, distance, overview_polyline)
       VALUES ($1, $2, $3, $4, $5, $6)",
     params = list(
-      journey$id, run_id, leg$duration$value,
+      journey_id, run_id, leg$duration$value,
       leg$duration_in_traffic$value, leg$distance$value,
       toJSON(decode_pl(resp$routes$overview_polyline$points), dataframe='values')
     )
@@ -67,6 +67,9 @@ for(n in 1:length(ltn_ids)){
   run_insert <- dbSendQuery(con, "INSERT INTO runs (ltn_id, time) VALUES ($1, NOW()) RETURNING id", params = ltn_id)
   run_id <- as.integer(dbFetch(run_insert)$id)
   dbClearResult(run_insert)
+  if(nrow(journeys) == 0) {
+    next
+  }
   for(journey_n in 1:nrow(journeys)){
     journey <- journeys[journey_n,]
     resp <- google_directions(
