@@ -55,14 +55,13 @@ res <- dbSendQuery(con, "SELECT id from ltns")
 ltn_ids <- dbFetch(res)$id
 dbClearResult(res)
 
-journeys_query <- dbSendQuery(
-  con,
-  "SELECT id, origin_lat, origin_lng, dest_lat, dest_lng FROM journeys WHERE disabled = FALSE AND ltn_id = $1"
-)
-
 for(n in 1:length(ltn_ids)){
   ltn_id <- as.integer(ltn_ids[n])
-  dbBind(journeys_query, ltn_id)
+  journeys_query <- dbSendQuery(
+    con,
+    "SELECT id, origin_lat, origin_lng, dest_lat, dest_lng FROM journeys WHERE disabled = FALSE AND ltn_id = $1",
+    params = ltn_id
+  )
   journeys <- dbFetch(journeys_query)
   dbClearResult(journeys_query)
   run_insert <- dbSendQuery(con, "INSERT INTO runs (ltn_id, time) VALUES ($1, NOW()) RETURNING id", params = ltn_id)
