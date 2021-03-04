@@ -80,3 +80,49 @@ for(n in 1:length(ltn_ids)){
     store_resp(resp, run_id, journey$id)
   }
 }
+
+journeys_missing_distances_query <- dbSendQuery(
+  con,
+  "SELECT journeys.* FROM journeys
+  LEFT JOIN distances ON distances.journey_id = journeys.id
+  WHERE journeys.disabled = FALSE AND distances.id IS NULL"
+)
+journeys_missing_distances <- dbFetch(journeys_missing_distances_query)
+dbClearResult(journeys_missing_distances_query)
+if(nrow(journeys_missing_distances) != 0) {
+  for(journey_n in 1:nrow(journeys_missing_distances))
+  {
+    journey <- journeys_missing_distances[journey_n,]
+    walk_resp <- google_directions(
+      origin = c(journey$origin_lat,journey$origin_lng),
+      destination = c(journey$dest_lat, journey$dest_lng),
+      mode= "walking"
+    )
+    walk_leg <- walk_resp$routes$legs[[1]]
+
+    bicycle_resp <- google_directions(
+      origin = c(journey$origin_lat,journey$origin_lng),
+      destination = c(journey$dest_lat, journey$dest_lng),
+      mode= "bicycling"
+    )
+    bicycle_leg <- bicycle_resp$routes$legs[[1]]
+
+    distance_insert <- dbSendQuery(
+      con,
+      "INSERT INTO distances
+      (
+        journey_id,
+        walk_distance, bicycle_distance,
+        walk_overview_polyline, bicycle_overview_polyline
+      )
+      VALUES ($1, $2, $3, $4, $5)",
+      params = list(
+        journey$id,
+        walk_leg$distance$value, bicycle_leg$distance$value,
+        toJSON(decode_pl(walk_resp$routes$overview_polyline$points), dataframe='values'),
+        toJSON(decode_pl(bicycle_resp$routes$overview_polyline$points), dataframe='values')
+      )
+    )
+    dbClearResult(distance_insert)
+  }
+}
