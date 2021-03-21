@@ -51,6 +51,27 @@ store_resp <- function(google_resp, run_id, journey_id){
   dbClearResult(journey_run_insert)
 }
 
+tomtom_direction_call <- function(journey) {
+  req <- httr::GET(
+    "https://api.tomtom.com/",
+    path= paste0("routing/1/calculateRoute/", journey$origin_lat, journey$origin_lng, "%2C", journey$dest_lat, journey$dest_lng , "/json"),
+    query = list(computeBestOrder = "false", computeTravelTimeFor = "all", computeTravelTimeFor = "traffic", departAt = "now", traffic = "true", avoid = "unpavedRoads", travelMode = "car", vehicleCommercial = "false", key = Sys.getenv("TOMTOM_API_KEY")),
+    httr::add_headers(Accept = "application/json")
+  )
+  httr::stop_for_status(req)
+  status <- httr::http_status(req)
+  if (status$reason != "OK" ) {
+    # What should we store when there are errors?  For intermittent errors (network failure) we should retry.
+    # but if for some reason Tomtom is never able to route us (can't snap to the route network) or over API limit
+    # should we fail gracefully?
+    return(FALSE)
+  }
+
+  content <- httr::content(req, as = "text", encoding = "UTF-8")
+
+  fromJSON(content)
+}
+
 res <- dbSendQuery(con, "SELECT id from ltns")
 ltn_ids <- dbFetch(res)$id
 dbClearResult(res)
