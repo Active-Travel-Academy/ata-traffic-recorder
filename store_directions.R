@@ -122,7 +122,7 @@ for(n in 1:length(ltn_ids)){
   )
   journeys <- dbFetch(journeys_query)
   dbClearResult(journeys_query)
-  run_insert <- dbSendQuery(con, "INSERT INTO runs (ltn_id, time) VALUES ($1, NOW()) RETURNING id", params = ltn_id)
+  run_insert <- dbSendQuery(con, "INSERT INTO runs (ltn_id) VALUES ($1) RETURNING id", params = ltn_id)
   run_id <- as.integer(dbFetch(run_insert)$id)
   dbClearResult(run_insert)
   if(nrow(journeys) == 0) {

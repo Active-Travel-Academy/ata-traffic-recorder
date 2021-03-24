@@ -103,7 +103,8 @@ CREATE TABLE public.journey_runs (
     duration integer NOT NULL,
     duration_in_traffic integer NOT NULL,
     distance integer NOT NULL,
-    overview_polyline jsonb NOT NULL
+    overview_polyline jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now()
 );
 
 
@@ -208,7 +209,8 @@ ALTER SEQUENCE public.ltns_id_seq OWNED BY public.ltns.id;
 CREATE TABLE public.runs (
     id bigint NOT NULL,
     ltn_id bigint NOT NULL,
-    "time" timestamp with time zone NOT NULL
+    "time" timestamp with time zone DEFAULT now() NOT NULL,
+    finished_at timestamp with time zone DEFAULT now()
 );
 
 
