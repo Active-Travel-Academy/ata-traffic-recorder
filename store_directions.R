@@ -51,6 +51,33 @@ google_store_resp <- function(resp, run_id, journey_id){
   dbClearResult(journey_run_insert)
 }
 
+tomtom_store_resp <- function(resp, run_id, journey_id){
+  summary <- resp$routes$summary
+  journey_run_insert <- dbSendQuery(
+    con,
+    "INSERT INTO tomtom_journey_runs (
+      journey_id,
+      run_id,
+      traffic_delay_in_seconds,
+      travel_time_in_seconds,
+      live_traffic_incidents_travel_time_in_seconds,
+      historic_traffic_travel_time_in_seconds,
+      length_in_meters,
+      overview_polyline
+     )
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+
+    params = list(
+      journey_id, run_id,
+      summary$trafficDelayInSeconds, summary$travelTimeInSeconds,
+      summary$liveTrafficIncidentsTravelTimeInSeconds, summary$historicTrafficTravelTimeInSeconds,
+      summary$lengthInMeters,
+      toJSON(resp$routes$legs[[1]]$points[[1]], dataframe='values')
+    )
+  )
+  dbClearResult(journey_run_insert)
+}
+
 tomtom_direction_call <- function(journey) {
   req <- httr::GET(
     "https://api.tomtom.com/",
@@ -110,6 +137,7 @@ for(n in 1:length(ltn_ids)){
     )
     google_store_resp(google_resp, run_id, journey$id)
     tomtom_resp <- tomtom_direction_call(journey)
+    tomtom_store_resp(tomtom_resp, run_id, journey$id)
   }
 }
 
