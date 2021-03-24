@@ -36,7 +36,7 @@ set_key(Sys.getenv("GOOGLE_API_KEY"))
 # dbClearResult(res)
 
 
-store_resp <- function(google_resp, run_id, journey_id){
+google_store_resp <- function(resp, run_id, journey_id){
   leg <- resp$routes$legs[[1]]
   journey_run_insert <- dbSendQuery(
     con,
@@ -54,8 +54,18 @@ store_resp <- function(google_resp, run_id, journey_id){
 tomtom_direction_call <- function(journey) {
   req <- httr::GET(
     "https://api.tomtom.com/",
-    path= paste0("routing/1/calculateRoute/", journey$origin_lat, journey$origin_lng, "%2C", journey$dest_lat, journey$dest_lng , "/json"),
-    query = list(computeBestOrder = "false", computeTravelTimeFor = "all", computeTravelTimeFor = "traffic", departAt = "now", traffic = "true", avoid = "unpavedRoads", travelMode = "car", vehicleCommercial = "false", key = Sys.getenv("TOMTOM_API_KEY")),
+    path= paste0("routing/1/calculateRoute/", journey$origin_lat, ",", journey$origin_lng, ":", journey$dest_lat, ",", journey$dest_lng , "/json"),
+    query = list(
+      computeBestOrder = "false",
+      computeTravelTimeFor = "all",
+      computeTravelTimeFor = "traffic",
+      departAt = "now",
+      traffic = "true",
+      avoid = "unpavedRoads",
+      travelMode = "car",
+      vehicleCommercial = "false",
+      key = Sys.getenv("TOMTOM_API_KEY")
+    ),
     httr::add_headers(Accept = "application/json")
   )
   httr::stop_for_status(req)
@@ -93,12 +103,13 @@ for(n in 1:length(ltn_ids)){
   }
   for(journey_n in 1:nrow(journeys)){
     journey <- journeys[journey_n,]
-    resp <- google_directions(
+    google_resp <- google_directions(
       origin = c(journey$origin_lat,journey$origin_lng),
       destination = c(journey$dest_lat, journey$dest_lng),
       departure_time ='now'
     )
-    store_resp(resp, run_id, journey$id)
+    google_store_resp(google_resp, run_id, journey$id)
+    tomtom_resp <- tomtom_direction_call(journey)
   }
 }
 
