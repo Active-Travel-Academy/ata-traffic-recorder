@@ -6,3 +6,19 @@ API is in R and the data is stored in a SQL database (postgres - as we might wan
 store geographical data using postgis later).
 
 The database has quite tight access control as there is no graphical interface.
+
+# Setup
+
+Create a postgres database and create the three roles:
+
+```sql
+CREATE DATABASE ltns;
+CREATE ROLE shared_role NOLOGIN;
+CREATE ROLE r_program IN ROLE shared_role PASSWORD "..." LOGIN;
+CREATE ROLE asker IN ROLE shared_role PASSWORD "..." LOGIN;
+```
+then import the schema:
+```
+psql -U postgres ltns < ata.sql
+```
+(assuming you're superuser is postgres)
