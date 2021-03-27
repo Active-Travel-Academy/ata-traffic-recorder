@@ -101,7 +101,7 @@ tomtom_direction_call <- function(journey) {
     # What should we store when there are errors?  For intermittent errors (network failure) we should retry.
     # but if for some reason Tomtom is never able to route us (can't snap to the route network) or over API limit
     # should we fail gracefully?
-    return(FALSE)
+    return(NULL)
   }
 
   content <- httr::content(req, as = "text", encoding = "UTF-8")
@@ -136,8 +136,15 @@ for(n in 1:length(ltn_ids)){
       departure_time ='now'
     )
     google_store_resp(google_resp, run_id, journey$id)
-    tomtom_resp <- tomtom_direction_call(journey)
-    tomtom_store_resp(tomtom_resp, run_id, journey$id)
+    tomtom_retries <- 2
+    while (tomtom_retries > 0) {
+      tomtom_resp <- tomtom_direction_call(journey)
+      if (!is.null(tomtom_resp)) {
+        tomtom_store_resp(tomtom_resp, run_id, journey$id)
+        break()
+      }
+      tomtom_retries = tomtom_retries - 1
+    }
   }
 }
 
