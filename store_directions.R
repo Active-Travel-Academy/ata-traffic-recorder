@@ -110,6 +110,18 @@ tomtom_direction_call <- function(journey) {
   fromJSON(content)
 }
 
+tomtom_directions <- function(journey, run_id) {
+  tomtom_retries <- 2
+  while (tomtom_retries > 0) {
+    tomtom_resp <- tomtom_direction_call(journey)
+    if (!is.null(tomtom_resp)) {
+      tomtom_store_resp(tomtom_resp, run_id, journey$id)
+      break()
+    }
+    tomtom_retries = tomtom_retries - 1
+  }
+}
+
 res <- dbSendQuery(con, "SELECT id from ltns")
 ltn_ids <- dbFetch(res)$id
 dbClearResult(res)
@@ -137,15 +149,7 @@ for(n in 1:length(ltn_ids)){
       departure_time ='now'
     )
     google_store_resp(google_resp, run_id, journey$id)
-    tomtom_retries <- 2
-    while (tomtom_retries > 0) {
-      tomtom_resp <- tomtom_direction_call(journey)
-      if (!is.null(tomtom_resp)) {
-        tomtom_store_resp(tomtom_resp, run_id, journey$id)
-        break()
-      }
-      tomtom_retries = tomtom_retries - 1
-    }
+    tomtom_directions(journey, run_id)
   }
 }
 
