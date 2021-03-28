@@ -75,7 +75,6 @@ ALTER TABLE public.distances OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.distances_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
