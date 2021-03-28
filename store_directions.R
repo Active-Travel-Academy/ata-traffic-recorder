@@ -1,3 +1,6 @@
+library(rollbar)
+rollbar.attach()
+
 library(googleway)
 library(RPostgres)
 library(DBI)
@@ -98,9 +101,7 @@ tomtom_direction_call <- function(journey) {
   httr::stop_for_status(req)
   status <- httr::http_status(req)
   if (status$reason != "OK" ) {
-    # What should we store when there are errors?  For intermittent errors (network failure) we should retry.
-    # but if for some reason Tomtom is never able to route us (can't snap to the route network) or over API limit
-    # should we fail gracefully?
+    rollbar.info("Tomtom error", list(message = status$message, journey_id = journey$id))
     return(NULL)
   }
 
