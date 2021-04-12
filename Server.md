@@ -17,6 +17,7 @@ Then add to the crontab
 
 ```
 0 6-21 * * * cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
+30 7-9,16-18 * * * cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 ```
 
 ## Git
