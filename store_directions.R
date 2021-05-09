@@ -98,10 +98,9 @@ tomtom_direction_call <- function(journey) {
     ),
     httr::add_headers(Accept = "application/json")
   )
-  httr::stop_for_status(req)
-  status <- httr::http_status(req)
-  if (status$reason != "OK" ) {
-    rollbar.info("Tomtom error", list(message = status$message, journey_id = journey$id))
+  status <- httr::status_code(req)
+  if (status$reason != 200 ) {
+    rollbar.info("Tomtom error", list(message = httr::http_status(req)$message, journey_id = journey$id))
     return(NULL)
   }
 
@@ -143,13 +142,31 @@ for(n in 1:length(ltn_ids)){
   }
   for(journey_n in 1:nrow(journeys)){
     journey <- journeys[journey_n,]
-    google_resp <- google_directions(
-      origin = c(journey$origin_lat,journey$origin_lng),
-      destination = c(journey$dest_lat, journey$dest_lng),
-      departure_time ='now'
+    tryCatch(
+      {
+        google_resp <- google_directions(
+          origin = c(journey$origin_lat,journey$origin_lng),
+          destination = c(journey$dest_lat, journey$dest_lng),
+          departure_time ='now'
+        )
+        google_store_resp(google_resp, run_id, journey$id)
+      }
+      , error = function(e) {
+        e.type <- 'google'
+        e.journey_id <- journey$id
+        rollbar.info(e)
+      }
     )
-    google_store_resp(google_resp, run_id, journey$id)
-    tomtom_directions(journey, run_id)
+    tryCatch(
+      {
+        tomtom_directions(journey, run_id)
+      }
+      , error = function(e) {
+        e.type <- 'TomTom'
+        e.journey_id <- journey$id
+        rollbar.info(e)
+      }
+    )
   }
 }
 
