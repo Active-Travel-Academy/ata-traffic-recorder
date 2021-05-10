@@ -38,6 +38,7 @@ set_key(Sys.getenv("GOOGLE_API_KEY"))
 # )
 # dbClearResult(res)
 
+tomtom_quota_ok <- TRUE
 
 google_store_resp <- function(resp, run_id, journey_id){
   leg <- resp$routes$legs[[1]]
@@ -98,25 +99,20 @@ tomtom_direction_call <- function(journey) {
     ),
     httr::add_headers(Accept = "application/json")
   )
-  status <- httr::status_code(req)
-  if (status$reason != 200 ) {
-    rollbar.info("Tomtom error", list(message = httr::http_status(req)$message, journey_id = journey$id))
-    return(NULL)
-  }
-
-  content <- httr::content(req, as = "text", encoding = "UTF-8")
-
-  fromJSON(content)
+  list(content = httr::content(req, as = "text", encoding = "UTF-8"), status = httr::status_code(req), message = httr::http_status(req)$message)
 }
 
 tomtom_directions <- function(journey, run_id) {
   tomtom_retries <- 2
-  while (tomtom_retries > 0) {
+  while (tomtom_quota_ok && tomtom_retries > 0) {
     tomtom_resp <- tomtom_direction_call(journey)
-    if (!is.null(tomtom_resp)) {
-      tomtom_store_resp(tomtom_resp, run_id, journey$id)
+    if (tomtom_resp$status == 200) {
+      tomtom_store_resp(fromJSON(tomtom_resp$content), run_id, journey$id)
       break()
+    } else if (tomtom_resp$status == 403 || tomtom_resp$status == 429) {
+      tomtom_quota_ok <- FALSE
     }
+    rollbar.info("Tomtom error", list(message = tomtom_resp$message, status = tomtom_resp$status, journey_id = journey$id))
     tomtom_retries = tomtom_retries - 1
   }
 }
