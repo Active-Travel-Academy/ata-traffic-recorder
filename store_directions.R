@@ -30,11 +30,11 @@ set_key(Sys.getenv("GOOGLE_API_KEY"))
 # dbClearResult(res)
 # res <- dbSendQuery(con,
 #             "
-#   INSERT INTO journeys (origin_lat, origin_lng, dest_lat, dest_lng, ltn_id)
+#   INSERT INTO journeys (origin_lat, origin_lng, dest_lat, dest_lng, ltn_id, waypoint_lat, waypoint_lng)
 #   VALUES
-#   (51.444084,-0.085219145,51.451654,-0.096039176, 1),
-#   (51.43953,-0.09780407,51.436982,-0.094408393, 1),
-#   (51.442025,-0.096731186,51.436982,-0.094408393, 1)"
+#   (51.444084,-0.085219145,51.451654,-0.096039176, 1, NULL, NULL),
+#   (51.43953,-0.09780407,51.436982,-0.094408393, 1, NULL, NULL),
+#   (51.442025,-0.096731186,51.436982,-0.094408393, 1, 51.442025, -0.094408393)"
 # )
 # dbClearResult(res)
 
@@ -83,9 +83,13 @@ tomtom_store_resp <- function(resp, run_id, journey_id){
 }
 
 tomtom_direction_call <- function(journey) {
+  waypoints <- NULL
+  if (!is.na(journey$waypoint_lat)) {
+    waypoints <- paste0(journey$waypoint_lat, ",", journey$waypoint_lng, ":")
+  }
   req <- httr::GET(
     "https://api.tomtom.com/",
-    path= paste0("routing/1/calculateRoute/", journey$origin_lat, ",", journey$origin_lng, ":", journey$dest_lat, ",", journey$dest_lng , "/json"),
+    path= paste0("routing/1/calculateRoute/", journey$origin_lat, ",", journey$origin_lng, ":", waypoints, journey$dest_lat, ",", journey$dest_lng , "/json"),
     query = list(
       computeBestOrder = "false",
       computeTravelTimeFor = "all",
@@ -125,7 +129,7 @@ for(n in 1:length(ltn_ids)){
   ltn_id <- as.integer(ltn_ids[n])
   journeys_query <- dbSendQuery(
     con,
-    "SELECT id, origin_lat, origin_lng, dest_lat, dest_lng FROM journeys WHERE disabled = FALSE AND ltn_id = $1",
+    "SELECT id, origin_lat, origin_lng, dest_lat, dest_lng, waypoint_lat, waypoint_lng FROM journeys WHERE disabled = FALSE AND ltn_id = $1",
     params = ltn_id
   )
   journeys <- dbFetch(journeys_query)
@@ -138,12 +142,17 @@ for(n in 1:length(ltn_ids)){
   }
   for(journey_n in 1:nrow(journeys)){
     journey <- journeys[journey_n,]
+    waypoints <- NULL
+    if (!is.na(journey$waypoint_lat)) {
+      waypoints <- list(c(journey$waypoint_lat, journey$waypoint_lng))
+    }
     tryCatch(
       {
         google_resp <- google_directions(
           origin = c(journey$origin_lat,journey$origin_lng),
           destination = c(journey$dest_lat, journey$dest_lng),
-          departure_time ='now'
+          departure_time ='now',
+          waypoints = waypoints
         )
         google_store_resp(google_resp, run_id, journey$id)
       }

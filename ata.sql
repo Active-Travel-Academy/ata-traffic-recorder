@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.1
+-- Dumped from database version 13.2
 -- Dumped by pg_dump version 13.2 (Debian 13.2-1.pgdg90+1)
 
 SET statement_timeout = 0;
@@ -141,7 +141,10 @@ CREATE TABLE public.journeys (
     origin_lng numeric(11,8) NOT NULL,
     dest_lat numeric(11,8) NOT NULL,
     dest_lng numeric(11,8) NOT NULL,
-    disabled boolean DEFAULT false NOT NULL
+    disabled boolean DEFAULT false NOT NULL,
+    waypoint_lat numeric(11,8),
+    waypoint_lng numeric(11,8),
+    CONSTRAINT both_or_neither_waypoints CHECK ((((waypoint_lat IS NULL) AND (waypoint_lng IS NULL)) OR ((waypoint_lat IS NOT NULL) AND (waypoint_lng IS NOT NULL))))
 );
 
 
@@ -632,6 +635,20 @@ GRANT INSERT(dest_lng) ON TABLE public.journeys TO asker;
 --
 
 GRANT INSERT(disabled),UPDATE(disabled) ON TABLE public.journeys TO asker;
+
+
+--
+-- Name: COLUMN journeys.waypoint_lat; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT INSERT(waypoint_lat) ON TABLE public.journeys TO asker;
+
+
+--
+-- Name: COLUMN journeys.waypoint_lng; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT INSERT(waypoint_lng) ON TABLE public.journeys TO asker;
 
 
 --
