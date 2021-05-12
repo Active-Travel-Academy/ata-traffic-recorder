@@ -38,7 +38,6 @@ set_key(Sys.getenv("GOOGLE_API_KEY"))
 # )
 # dbClearResult(res)
 
-tomtom_quota_ok <- TRUE
 
 google_store_resp <- function(resp, run_id, journey_id){
   leg <- resp$routes$legs[[1]]
@@ -108,15 +107,16 @@ tomtom_direction_call <- function(journey) {
 
 tomtom_directions <- function(journey, run_id) {
   tomtom_retries <- 2
-  while (tomtom_quota_ok && tomtom_retries > 0) {
+  while (tomtom_retries > 0) {
     tomtom_resp <- tomtom_direction_call(journey)
     if (tomtom_resp$status == 200) {
       tomtom_store_resp(fromJSON(tomtom_resp$content), run_id, journey$id)
-      break()
-    } else if (tomtom_resp$status == 403 || tomtom_resp$status == 429) {
-      tomtom_quota_ok <- FALSE
+      return()
     }
     rollbar.info("Tomtom error", list(message = tomtom_resp$message, status = tomtom_resp$status, journey_id = journey$id))
+    if (tomtom_resp$status == 403 || tomtom_resp$status == 429) {
+      return(T)
+    }
     tomtom_retries = tomtom_retries - 1
   }
 }
@@ -125,6 +125,7 @@ res <- dbSendQuery(con, "SELECT id from ltns")
 ltn_ids <- dbFetch(res)$id
 dbClearResult(res)
 
+tomtom_over_quota <- F
 for(n in 1:length(ltn_ids)){
   ltn_id <- as.integer(ltn_ids[n])
   journeys_query <- dbSendQuery(
@@ -162,16 +163,18 @@ for(n in 1:length(ltn_ids)){
         rollbar.info(e)
       }
     )
-    tryCatch(
-      {
-        tomtom_directions(journey, run_id)
-      }
-      , error = function(e) {
-        e.type <- 'TomTom'
-        e.journey_id <- journey$id
-        rollbar.info(e)
-      }
-    )
+    if (!tomtom_over_quota) {
+      tryCatch(
+        {
+          tomtom_over_quota <- tomtom_directions(journey, run_id)
+        }
+        , error = function(e) {
+          e.type <- 'TomTom'
+          e.journey_id <- journey$id
+          rollbar.info(e)
+        }
+      )
+    }
   }
 }
 
