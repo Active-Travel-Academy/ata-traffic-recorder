@@ -54,78 +54,10 @@ google_store_resp <- function(resp, run_id, journey_id){
   dbClearResult(journey_run_insert)
 }
 
-tomtom_store_resp <- function(resp, run_id, journey_id){
-  summary <- resp$routes$summary
-  journey_run_insert <- dbSendQuery(
-    con,
-    "INSERT INTO tomtom_journey_runs (
-      journey_id,
-      run_id,
-      traffic_delay_in_seconds,
-      travel_time_in_seconds,
-      live_traffic_incidents_travel_time_in_seconds,
-      historic_traffic_travel_time_in_seconds,
-      length_in_meters,
-      overview_polyline
-     )
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-
-    params = list(
-      journey_id, run_id,
-      summary$trafficDelayInSeconds, summary$travelTimeInSeconds,
-      summary$liveTrafficIncidentsTravelTimeInSeconds, summary$historicTrafficTravelTimeInSeconds,
-      summary$lengthInMeters,
-      toJSON(resp$routes$legs[[1]]$points[[1]], dataframe='values')
-    )
-  )
-  dbClearResult(journey_run_insert)
-}
-
-tomtom_direction_call <- function(journey) {
-  waypoints <- NULL
-  if (!is.na(journey$waypoint_lat)) {
-    waypoints <- paste0(journey$waypoint_lat, ",", journey$waypoint_lng, ":")
-  }
-  req <- httr::GET(
-    "https://api.tomtom.com/",
-    path= paste0("routing/1/calculateRoute/", journey$origin_lat, ",", journey$origin_lng, ":", waypoints, journey$dest_lat, ",", journey$dest_lng , "/json"),
-    query = list(
-      computeBestOrder = "false",
-      computeTravelTimeFor = "all",
-      computeTravelTimeFor = "traffic",
-      departAt = "now",
-      traffic = "true",
-      avoid = "unpavedRoads",
-      travelMode = "car",
-      vehicleCommercial = "false",
-      key = Sys.getenv("TOMTOM_API_KEY")
-    ),
-    httr::add_headers(Accept = "application/json")
-  )
-  list(content = httr::content(req, as = "text", encoding = "UTF-8"), status = httr::status_code(req), message = httr::http_status(req)$message)
-}
-
-tomtom_directions <- function(journey, run_id) {
-  tomtom_retries <- 2
-  while (tomtom_retries > 0) {
-    tomtom_resp <- tomtom_direction_call(journey)
-    if (tomtom_resp$status == 200) {
-      tomtom_store_resp(fromJSON(tomtom_resp$content), run_id, journey$id)
-      return()
-    }
-    rollbar.info("Tomtom error", list(message = tomtom_resp$message, status = tomtom_resp$status, journey_id = journey$id))
-    if (tomtom_resp$status == 403 || tomtom_resp$status == 429) {
-      return(T)
-    }
-    tomtom_retries = tomtom_retries - 1
-  }
-}
-
 res <- dbSendQuery(con, "SELECT id from ltns")
 ltn_ids <- dbFetch(res)$id
 dbClearResult(res)
 
-tomtom_over_quota <- F
 for(n in 1:length(ltn_ids)){
   ltn_id <- as.integer(ltn_ids[n])
   journeys_query <- dbSendQuery(
@@ -163,18 +95,6 @@ for(n in 1:length(ltn_ids)){
         rollbar.info(e)
       }
     )
-    if (!tomtom_over_quota) {
-      tryCatch(
-        {
-          tomtom_over_quota <- tomtom_directions(journey, run_id)
-        }
-        , error = function(e) {
-          e.type <- 'TomTom'
-          e.journey_id <- journey$id
-          rollbar.info(e)
-        }
-      )
-    }
   }
 }
 

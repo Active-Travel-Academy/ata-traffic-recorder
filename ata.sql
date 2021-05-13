@@ -240,47 +240,6 @@ ALTER SEQUENCE public.runs_id_seq OWNED BY public.runs.id;
 
 
 --
--- Name: tomtom_journey_runs; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.tomtom_journey_runs (
-    id bigint NOT NULL,
-    journey_id bigint NOT NULL,
-    run_id bigint NOT NULL,
-    traffic_delay_in_seconds integer NOT NULL,
-    travel_time_in_seconds integer NOT NULL,
-    live_traffic_incidents_travel_time_in_seconds integer NOT NULL,
-    historic_traffic_travel_time_in_seconds integer NOT NULL,
-    length_in_meters integer NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL,
-    overview_polyline jsonb NOT NULL
-);
-
-
-ALTER TABLE public.tomtom_journey_runs OWNER TO postgres;
-
---
--- Name: tomtom_journey_runs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.tomtom_journey_runs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tomtom_journey_runs_id_seq OWNER TO postgres;
-
---
--- Name: tomtom_journey_runs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.tomtom_journey_runs_id_seq OWNED BY public.tomtom_journey_runs.id;
-
-
---
 -- Name: default_timings id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -323,13 +282,6 @@ ALTER TABLE ONLY public.runs ALTER COLUMN id SET DEFAULT nextval('public.runs_id
 
 
 --
--- Name: tomtom_journey_runs id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tomtom_journey_runs ALTER COLUMN id SET DEFAULT nextval('public.tomtom_journey_runs_id_seq'::regclass);
-
-
---
 -- Name: default_timings default_timings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -367,14 +319,6 @@ ALTER TABLE ONLY public.ltns
 
 ALTER TABLE ONLY public.runs
     ADD CONSTRAINT runs_pkey PRIMARY KEY (id);
-
-
---
--- Name: tomtom_journey_runs tomtom_journey_runs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tomtom_journey_runs
-    ADD CONSTRAINT tomtom_journey_runs_pkey PRIMARY KEY (id);
 
 
 --
@@ -446,19 +390,7 @@ ALTER TABLE ONLY public.runs
 
 
 --
--- Name: tomtom_journey_runs tomtom_journey_runs_journey_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
-
-ALTER TABLE ONLY public.tomtom_journey_runs
-    ADD CONSTRAINT tomtom_journey_runs_journey_id FOREIGN KEY (journey_id) REFERENCES public.journeys(id);
-
-
---
--- Name: tomtom_journey_runs tomtom_journey_runs_run_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tomtom_journey_runs
-    ADD CONSTRAINT tomtom_journey_runs_run_id FOREIGN KEY (run_id) REFERENCES public.runs(id);
 
 
 
@@ -705,76 +637,6 @@ GRANT INSERT("time") ON TABLE public.runs TO r_program;
 --
 
 GRANT ALL ON SEQUENCE public.runs_id_seq TO shared_role;
-
-
---
--- Name: TABLE tomtom_journey_runs; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT ON TABLE public.tomtom_journey_runs TO shared_role;
-
-
---
--- Name: COLUMN tomtom_journey_runs.journey_id; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(journey_id) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: COLUMN tomtom_journey_runs.run_id; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(run_id) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: COLUMN tomtom_journey_runs.traffic_delay_in_seconds; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(traffic_delay_in_seconds) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: COLUMN tomtom_journey_runs.travel_time_in_seconds; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(travel_time_in_seconds) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: COLUMN tomtom_journey_runs.live_traffic_incidents_travel_time_in_seconds; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(live_traffic_incidents_travel_time_in_seconds) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: COLUMN tomtom_journey_runs.historic_traffic_travel_time_in_seconds; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(historic_traffic_travel_time_in_seconds) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: COLUMN tomtom_journey_runs.length_in_meters; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(length_in_meters) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: COLUMN tomtom_journey_runs.overview_polyline; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(overview_polyline) ON TABLE public.tomtom_journey_runs TO r_program;
-
-
---
--- Name: SEQUENCE tomtom_journey_runs_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON SEQUENCE public.tomtom_journey_runs_id_seq TO shared_role;
 
 
 --
