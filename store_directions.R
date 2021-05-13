@@ -1,10 +1,17 @@
 library(rollbar)
 rollbar.attach()
 
+journey_args = commandArgs(trailingOnly=TRUE)
+
+if (length(journey_args) == 1) {
+  journey_args[2] = "driving"
+}
+
 library(googleway)
 library(RPostgres)
 library(DBI)
 library(jsonlite)
+library(glue)
 
 con <- dbConnect(
   RPostgres::Postgres(),
@@ -62,12 +69,15 @@ for(n in 1:length(ltn_ids)){
   ltn_id <- as.integer(ltn_ids[n])
   journeys_query <- dbSendQuery(
     con,
-    "SELECT id, origin_lat, origin_lng, dest_lat, dest_lng, waypoint_lat, waypoint_lng FROM journeys WHERE disabled = FALSE AND ltn_id = $1",
-    params = ltn_id
+    "SELECT id, origin_lat, origin_lng, dest_lat, dest_lng, waypoint_lat, waypoint_lng FROM journeys WHERE disabled = FALSE AND ltn_id = $1 AND type = $2",
+    params = list(ltn_id, journey_args[1])
   )
   journeys <- dbFetch(journeys_query)
   dbClearResult(journeys_query)
-  run_insert <- dbSendQuery(con, "INSERT INTO runs (ltn_id) VALUES ($1) RETURNING id", params = ltn_id)
+  run_insert <- dbSendQuery(
+    con, "INSERT INTO runs (ltn_id, mode) VALUES ($1, $2) RETURNING id",
+    params = list(ltn_id, journey_args[2])
+  )
   run_id <- as.integer(dbFetch(run_insert)$id)
   dbClearResult(run_insert)
   if(nrow(journeys) == 0) {
@@ -85,7 +95,8 @@ for(n in 1:length(ltn_ids)){
           origin = c(journey$origin_lat,journey$origin_lng),
           destination = c(journey$dest_lat, journey$dest_lng),
           departure_time ='now',
-          waypoints = waypoints
+          waypoints = waypoints,
+          mode = journey_args[2]
         )
         google_store_resp(google_resp, run_id, journey$id)
       }
@@ -95,6 +106,14 @@ for(n in 1:length(ltn_ids)){
         rollbar.info(e)
       }
     )
+  }
+  if (identical(journey_args[3], "disable_after")) {
+    disable_journeys_sql <- glue_sql(
+      "UPDATE journeys SET id = id+10 WHERE id IN ({journey_ids*})",
+      journey_ids = journeys$id
+    )
+    disable_journeys_query <- dbSendQuery(con, disable_journeys_sql)
+    dbClearResult(disable_journeys_query)
   }
 }
 

@@ -16,6 +16,32 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: journey_type; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.journey_type AS ENUM (
+    'frequently_routed',
+    'infrequently_routed',
+    'test_routing'
+);
+
+
+ALTER TYPE public.journey_type OWNER TO postgres;
+
+--
+-- Name: run_mode; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.run_mode AS ENUM (
+    'driving',
+    'walking',
+    'cycling'
+);
+
+
+ALTER TYPE public.run_mode OWNER TO postgres;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -144,6 +170,7 @@ CREATE TABLE public.journeys (
     disabled boolean DEFAULT false NOT NULL,
     waypoint_lat numeric(11,8),
     waypoint_lng numeric(11,8),
+    type public.journey_type DEFAULT 'frequently_routed'::public.journey_type NOT NULL,
     CONSTRAINT both_or_neither_waypoints CHECK ((((waypoint_lat IS NULL) AND (waypoint_lng IS NULL)) OR ((waypoint_lat IS NOT NULL) AND (waypoint_lng IS NOT NULL))))
 );
 
@@ -212,7 +239,8 @@ CREATE TABLE public.runs (
     id bigint NOT NULL,
     ltn_id bigint NOT NULL,
     "time" timestamp with time zone DEFAULT now() NOT NULL,
-    finished_at timestamp with time zone DEFAULT now()
+    finished_at timestamp with time zone DEFAULT now(),
+    mode public.run_mode DEFAULT 'driving'::public.run_mode NOT NULL
 );
 
 
@@ -343,10 +371,24 @@ CREATE INDEX journeys_ltn_id ON public.journeys USING btree (ltn_id) WHERE (NOT 
 
 
 --
+-- Name: journeys_type; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX journeys_type ON public.journeys USING btree (type);
+
+
+--
 -- Name: runs_ltn_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
 CREATE INDEX runs_ltn_id ON public.runs USING btree (ltn_id);
+
+
+--
+-- Name: runs_mode; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX runs_mode ON public.runs USING btree (mode);
 
 
 --
@@ -567,6 +609,7 @@ GRANT INSERT(dest_lng) ON TABLE public.journeys TO asker;
 --
 
 GRANT INSERT(disabled),UPDATE(disabled) ON TABLE public.journeys TO asker;
+GRANT UPDATE(disabled) ON TABLE public.journeys TO r_program;
 
 
 --
@@ -581,6 +624,13 @@ GRANT INSERT(waypoint_lat) ON TABLE public.journeys TO asker;
 --
 
 GRANT INSERT(waypoint_lng) ON TABLE public.journeys TO asker;
+
+
+--
+-- Name: COLUMN journeys.type; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT INSERT(type),UPDATE(type) ON TABLE public.journeys TO asker;
 
 
 --
@@ -630,6 +680,13 @@ GRANT INSERT(ltn_id) ON TABLE public.runs TO r_program;
 --
 
 GRANT INSERT("time") ON TABLE public.runs TO r_program;
+
+
+--
+-- Name: COLUMN runs.mode; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT INSERT(mode) ON TABLE public.runs TO r_program;
 
 
 --
