@@ -87,7 +87,7 @@ for(n in 1:length(ltn_ids)){
     journey <- journeys[journey_n,]
     waypoints <- NULL
     if (!is.na(journey$waypoint_lat)) {
-      waypoints <- list(c(journey$waypoint_lat, journey$waypoint_lng))
+      waypoints <- list(via = c(journey$waypoint_lat, journey$waypoint_lng))
     }
     tryCatch(
       {
