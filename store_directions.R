@@ -74,15 +74,15 @@ for(n in 1:length(ltn_ids)){
   )
   journeys <- dbFetch(journeys_query)
   dbClearResult(journeys_query)
+  if(nrow(journeys) == 0) {
+    next
+  }
   run_insert <- dbSendQuery(
     con, "INSERT INTO runs (ltn_id, mode) VALUES ($1, $2) RETURNING id",
     params = list(ltn_id, journey_args[2])
   )
   run_id <- as.integer(dbFetch(run_insert)$id)
   dbClearResult(run_insert)
-  if(nrow(journeys) == 0) {
-    next
-  }
   for(journey_n in 1:nrow(journeys)){
     journey <- journeys[journey_n,]
     waypoints <- NULL
