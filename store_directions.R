@@ -109,8 +109,9 @@ for(n in 1:length(ltn_ids)){
   }
   if (identical(journey_args[3], "disable_after")) {
     disable_journeys_sql <- glue_sql(
-      "UPDATE journeys SET id = id+10 WHERE id IN ({journey_ids*})",
-      journey_ids = journeys$id
+      "UPDATE journeys SET disabled = TRUE WHERE id IN ({journey_ids*})",
+      journey_ids = journeys$id,
+      .con = con
     )
     disable_journeys_query <- dbSendQuery(con, disable_journeys_sql)
     dbClearResult(disable_journeys_query)
