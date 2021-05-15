@@ -170,7 +170,7 @@ CREATE TABLE public.journeys (
     disabled boolean DEFAULT false NOT NULL,
     waypoint_lat numeric(11,8),
     waypoint_lng numeric(11,8),
-    type public.journey_type DEFAULT 'frequently_routed'::public.journey_type NOT NULL,
+    type public.journey_type DEFAULT 'test_routing'::public.journey_type NOT NULL,
     CONSTRAINT both_or_neither_waypoints CHECK ((((waypoint_lat IS NULL) AND (waypoint_lng IS NULL)) OR ((waypoint_lat IS NOT NULL) AND (waypoint_lng IS NOT NULL))))
 );
 
