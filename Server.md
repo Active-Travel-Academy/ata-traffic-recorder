@@ -21,9 +21,9 @@ Then add to the crontab
 30 8,17 * * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 0 13 * * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 30 8,17 1-7 * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed walking && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-30 8,17 1-7 * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed cycling && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
+30 8,17 1-7 * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed bicycling && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 0 13 1-7 * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed walking && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-0 13 1-7 * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed cycling && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
+0 13 1-7 * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed bicycling && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 * * * * * cd  /home/git/code/ata-traffic-recorder test_routing driving disable_after && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 
 ```

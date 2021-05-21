@@ -36,7 +36,7 @@ ALTER TYPE public.journey_type OWNER TO postgres;
 CREATE TYPE public.run_mode AS ENUM (
     'driving',
     'walking',
-    'cycling'
+    'bicycling'
 );
 
 
