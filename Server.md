@@ -16,7 +16,7 @@ NOTE there was an issue with googlePolylines so might need to follow instruction
 Then add to the crontab
 
 ```
-15,45 6-9,15-18 * * 2 cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript frequently_routed ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
+15,45 6-9,16-20 * * 2 cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript frequently_routed ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 30 10-15 * * 2,6 cd /home/git/code/ata-traffic-recorder frequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 30 8,17 * * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
 0 13 * * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
