@@ -42,6 +42,24 @@ CREATE TYPE public.run_mode AS ENUM (
 
 ALTER TYPE public.run_mode OWNER TO postgres;
 
+--
+-- Name: fn_distance_non_null_for_driving(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.fn_distance_non_null_for_driving() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF (NEW.duration_in_traffic IS NULL AND (SELECT TRUE FROM runs WHERE runs.mode = 'driving' AND runs.id = NEW.run_id)) THEN
+    RAISE not_null_violation;
+  END IF;
+  RETURN NULL;
+END;
+$$;
+
+
+ALTER FUNCTION public.fn_distance_non_null_for_driving() OWNER TO postgres;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -81,43 +99,6 @@ ALTER SEQUENCE public.default_timings_id_seq OWNED BY public.default_timings.id;
 
 
 --
--- Name: distances; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.distances (
-    id bigint NOT NULL,
-    journey_id bigint NOT NULL,
-    bicycle_distance integer NOT NULL,
-    walk_distance integer NOT NULL,
-    walk_overview_polyline jsonb NOT NULL,
-    bicycle_overview_polyline jsonb NOT NULL
-);
-
-
-ALTER TABLE public.distances OWNER TO postgres;
-
---
--- Name: distances_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.distances_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.distances_id_seq OWNER TO postgres;
-
---
--- Name: distances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.distances_id_seq OWNED BY public.distances.id;
-
-
---
 -- Name: journey_runs; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -126,7 +107,7 @@ CREATE TABLE public.journey_runs (
     journey_id bigint NOT NULL,
     run_id bigint NOT NULL,
     duration integer NOT NULL,
-    duration_in_traffic integer NOT NULL,
+    duration_in_traffic integer,
     distance integer NOT NULL,
     overview_polyline jsonb NOT NULL,
     created_at timestamp with time zone DEFAULT now()
@@ -275,13 +256,6 @@ ALTER TABLE ONLY public.default_timings ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- Name: distances id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.distances ALTER COLUMN id SET DEFAULT nextval('public.distances_id_seq'::regclass);
-
-
---
 -- Name: journey_runs id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -392,11 +366,10 @@ CREATE INDEX runs_mode ON public.runs USING btree (mode);
 
 
 --
--- Name: distances distances_journey_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: journey_runs fn_distance_non_null_for_driving; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.distances
-    ADD CONSTRAINT distances_journey_id FOREIGN KEY (journey_id) REFERENCES public.journeys(id);
+CREATE CONSTRAINT TRIGGER fn_distance_non_null_for_driving AFTER INSERT OR UPDATE ON public.journey_runs NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE FUNCTION public.fn_distance_non_null_for_driving();
 
 
 --
@@ -455,55 +428,6 @@ GRANT INSERT(timing),UPDATE(timing) ON TABLE public.default_timings TO asker;
 --
 
 GRANT ALL ON SEQUENCE public.default_timings_id_seq TO shared_role;
-
-
---
--- Name: TABLE distances; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT ON TABLE public.distances TO shared_role;
-
-
---
--- Name: COLUMN distances.journey_id; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(journey_id) ON TABLE public.distances TO r_program;
-
-
---
--- Name: COLUMN distances.bicycle_distance; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(bicycle_distance) ON TABLE public.distances TO r_program;
-
-
---
--- Name: COLUMN distances.walk_distance; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(walk_distance) ON TABLE public.distances TO r_program;
-
-
---
--- Name: COLUMN distances.walk_overview_polyline; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(walk_overview_polyline) ON TABLE public.distances TO r_program;
-
-
---
--- Name: COLUMN distances.bicycle_overview_polyline; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT INSERT(bicycle_overview_polyline) ON TABLE public.distances TO r_program;
-
-
---
--- Name: SEQUENCE distances_id_seq; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT ALL ON SEQUENCE public.distances_id_seq TO shared_role;
 
 
 --
