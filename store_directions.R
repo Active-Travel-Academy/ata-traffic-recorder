@@ -163,3 +163,5 @@ if(nrow(journeys_missing_distances) != 0) {
     dbClearResult(distance_insert)
   }
 }
+
+dbDisconnect(con)
