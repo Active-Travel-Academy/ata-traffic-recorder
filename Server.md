@@ -16,16 +16,19 @@ NOTE there was an issue with googlePolylines so might need to follow instruction
 Then add to the crontab
 
 ```
-15,45 6-9,16-20 * * 2 cd  /home/git/code/ata-traffic-recorder && /usr/bin/Rscript frequently_routed ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-30 10-15 * * 2,6 cd /home/git/code/ata-traffic-recorder frequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-30 8,17 * * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-0 13 * * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-30 8,17 1-7 * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed walking && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-30 8,17 1-7 * 2 cd  /home/git/code/ata-traffic-recorder infrequently_routed bicycling && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-0 13 1-7 * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed walking && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-0 13 1-7 * 2,6 cd  /home/git/code/ata-traffic-recorder infrequently_routed bicycling && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-* * * * * cd  /home/git/code/ata-traffic-recorder test_routing driving disable_after && /usr/bin/Rscript ./store_directions.R >> /var/log/ata-traffic-recorder.log 2>&1
-
+ATA_DIR=/home/git/code/ata-traffic-recorder
+SCRIPT="/usr/bin/Rscript ./store_directions.R"
+METHODS="Loading required package: methods"
+LOG=/var/log/ata-traffic-recorder.log
+15,45 6-9,16-20 * * 2 cd $ATA_DIR && $SCRIPT frequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
+30 10-15 * * 2,6      cd $ATA_DIR && $SCRIPT frequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
+30 8,17 * * 2         cd $ATA_DIR && $SCRIPT infrequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
+0 13 * * 2,6          cd $ATA_DIR && $SCRIPT infrequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
+30 8,17 1-7 * 2       cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
+30 8,17 1-7 * 2       cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
+0 13 1-7 * 2,6        cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
+0 13 1-7 * 2,6        cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
+* * * * *             cd $ATA_DIR && $SCRIPT test_routing driving disable_after 2>&1 | grep -v "$METHODS" >> $LOG
 ```
 
 ## Git
