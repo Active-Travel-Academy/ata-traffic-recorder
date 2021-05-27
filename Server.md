@@ -24,10 +24,10 @@ LOG=/var/log/ata-traffic-recorder.log
 30 10-15 * * 2,6      cd $ATA_DIR && $SCRIPT frequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
 30 8,17 * * 2         cd $ATA_DIR && $SCRIPT infrequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
 0 13 * * 2,6          cd $ATA_DIR && $SCRIPT infrequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
-30 8,17 1-7 * 2       cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
-30 8,17 1-7 * 2       cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
-0 13 1-7 * 2,6        cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
-0 13 1-7 * 2,6        cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
+30 8,17 1-7 * */8,2   cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
+30 8,17 1-7 * */8,2   cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
+0 13 1-7 * */8,2,6    cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
+0 13 1-7 * */8,2,6    cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
 * * * * *             cd $ATA_DIR && $SCRIPT test_routing driving disable_after 2>&1 | grep -v "$METHODS" >> $LOG
 ```
 
