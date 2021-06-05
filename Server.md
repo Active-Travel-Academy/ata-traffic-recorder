@@ -17,18 +17,17 @@ Then add to the crontab
 
 ```
 ATA_DIR=/home/git/code/ata-traffic-recorder
-SCRIPT="/usr/bin/Rscript ./store_directions.R"
-METHODS="Loading required package: methods"
+SCRIPT="./cron_entrance_point.sh"
 LOG=/var/log/ata-traffic-recorder.log
-15,45 6-9,16-20 * * 2 cd $ATA_DIR && $SCRIPT frequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
-30 10-15 * * 2,6      cd $ATA_DIR && $SCRIPT frequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
-30 8,17 * * 2         cd $ATA_DIR && $SCRIPT infrequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
-0 13 * * 2,6          cd $ATA_DIR && $SCRIPT infrequently_routed 2>&1 | grep -v "$METHODS" >> $LOG
-30 8,17 1-7 * */8,2   cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
-30 8,17 1-7 * */8,2   cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
-0 13 1-7 * */8,2,6    cd $ATA_DIR && $SCRIPT infrequently_routed walking 2>&1 | grep -v "$METHODS" >> $LOG
-0 13 1-7 * */8,2,6    cd $ATA_DIR && $SCRIPT infrequently_routed bicycling 2>&1 | grep -v "$METHODS" >> $LOG
-* * * * *             cd $ATA_DIR && $SCRIPT test_routing driving disable_after 2>&1 | grep -v "$METHODS" >> $LOG
+15,45 6-9,16-20 * * 2 cd $ATA_DIR && $SCRIPT frequently_routed >> $LOG
+30 10-15 * * 2,6      cd $ATA_DIR && $SCRIPT frequently_routed >> $LOG
+30 8,17 * * 2         cd $ATA_DIR && $SCRIPT infrequently_routed >> $LOG
+0 13 * * 2,6          cd $ATA_DIR && $SCRIPT infrequently_routed >> $LOG
+30 8,17 * * 2         cd $ATA_DIR && BEFORE_EIGHTH=1 $SCRIPT infrequently_routed bicycling >> $LOG
+30 8,17 * * 2         cd $ATA_DIR && BEFORE_EIGHTH=1 $SCRIPT infrequently_routed walking >> $LOG
+0 13 * * 2,6          cd $ATA_DIR && BEFORE_EIGHTH=1 $SCRIPT infrequently_routed bicycling >> $LOG
+0 13 * * 2,6          cd $ATA_DIR && BEFORE_EIGHTH=1 $SCRIPT infrequently_routed walking >> $LOG
+* * * * *             cd $ATA_DIR && $SCRIPT test_routing driving disable_after >> $LOG
 ```
 
 ## Git
