@@ -1,7 +1,87 @@
 library(rollbar)
+
+rollbar.configure <- function(access_token = NULL, env = NULL, root = NULL, scope = NULL) {
+  if (!missing(access_token)) {
+    access_token <<- access_token
+  }
+  if (!missing(env)) {
+    env <<- env
+  }
+  if (!missing(root)) {
+    root <<- root
+  }
+  if (!missing(scope)) {
+    scope <<- scope
+  }
+}
+
+rollbar.log <- function(level, message, extra = NULL) {
+  if (!exists("access_token") || nchar(access_token) < 1) {
+    access_token <- Sys.getenv("ROLLBAR_ACCESS_TOKEN")
+  }
+  if (!exists("env") || nchar(env) < 1) {
+    env <- Sys.getenv("R_ENV")
+    if (nchar(env) < 1) {
+      env <- "unknown"
+    }
+  }
+  if (!exists("root")) {
+    root <- getwd()
+  }
+
+  if (nchar(access_token) > 0) {
+    url <- "https://api.rollbar.com/api/1/item/"
+    host <- Sys.info()["nodename"]
+    path <- sub(".*=", "", commandArgs()[4])
+    filename <- normalizePath(paste0(dirname(path), "/", path))
+    if (nchar(root) > 0) {
+      filename <- sub(paste0(root, "/"), "", filename)
+    }
+
+    msg <- list(body = message)
+    if (exists("scope")) {
+      extra <- c(extra, scope)
+    }
+    if (!is.null(extra)) {
+      msg$extra <- extra
+    }
+
+    payload <- list(
+      access_token = access_token,
+      data = list(
+        environment = env,
+        body = list(
+          message = msg
+        ),
+        level = level,
+        language = "R",
+        server = list(
+          host = host,
+          root = root
+        ),
+        context = filename
+      )
+    )
+
+    send <- function() {
+      response <- httr::POST(url, body = payload, encode = "json")
+      body <- httr::content(response, "parsed")
+      write("[Rollbar] Scheduling payload", stderr())
+      write(paste0("[Rollbar] Details: https://rollbar.com/instance/uuid?uuid=", body$result$uuid, " (only available if report was successful)"), stderr())
+    }
+    try(send())
+  } else {
+    write("[Rollbar] Not enabled in this environment", stderr())
+  }
+}
+assignInNamespace("rollbar.log",rollbar.log,ns="rollbar")
+assignInNamespace("rollbar.configure",rollbar.configure,ns="rollbar")
+
 rollbar.attach()
 
 journey_args = commandArgs(trailingOnly=TRUE)
+
+rollbar.configure(scope = list(commandArgs = paste(journey_args, collapse = " "), BEFORE_EIGHTH = Sys.getenv("BEFORE_EIGHTH")))
 
 if (length(journey_args) == 1) {
   journey_args[2] = "driving"
