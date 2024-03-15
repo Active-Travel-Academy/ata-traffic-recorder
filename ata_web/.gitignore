@@ -9,6 +9,7 @@
 
 # Ignore all environment files (except templates).
 /.env*
+/app.yaml
 !/.env*.erb
 
 # Ignore all logfiles and tempfiles.

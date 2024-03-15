@@ -79,6 +79,10 @@ test:
 #
 production:
   <<: *default
-  database: ata_web_production
-  username: ata_web
+production:
+  pool: 5
+  timeout: 5000
+  username: postgres
   password: <%= ENV["ATA_WEB_DATABASE_PASSWORD"] %>
+  database: ltns
+  host: <%= ENV["ATA_WEB_DATABASE_HOST"] %>
