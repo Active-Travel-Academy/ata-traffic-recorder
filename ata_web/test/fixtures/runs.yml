@@ -1,0 +1,225 @@
+---
+Run_1:
+  id: 1020
+  ltn_id: 1
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 06:00:02.709950000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-03-25 06:00:02.709950000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 06:00:02.709950000 Z
+    zone: *1
+    time: 2021-03-25 06:00:02.709950000 Z
+  mode: driving
+
+---
+Run_2:
+  id: 1021
+  ltn_id: 1
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 07:00:02.411268000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-03-25 07:00:02.411268000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 07:00:02.411268000 Z
+    zone: *1
+    time: 2021-03-25 07:00:02.411268000 Z
+  mode: driving
+
+---
+Run_3:
+  id: 1022
+  ltn_id: 1
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 08:00:02.654553000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-03-25 08:00:02.654553000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 08:00:02.654553000 Z
+    zone: *1
+    time: 2021-03-25 08:00:02.654553000 Z
+  mode: driving
+
+---
+Run_4:
+  id: 1023
+  ltn_id: 1
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 09:00:02.866289000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-03-25 09:00:02.866289000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 09:00:02.866289000 Z
+    zone: *1
+    time: 2021-03-25 09:00:02.866289000 Z
+  mode: driving
+
+---
+Run_5:
+  id: 1024
+  ltn_id: 1
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 10:00:03.023131000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-03-25 10:00:03.023131000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-03-25 10:00:03.023131000 Z
+    zone: *1
+    time: 2021-03-25 10:00:03.023131000 Z
+  mode: driving
+
+---
+Run_6:
+  id: 1373
+  ltn_id: 1
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 10:00:03.099014000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-03 10:00:03.099014000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 10:00:03.099014000 Z
+    zone: *1
+    time: 2021-04-03 10:00:03.099014000 Z
+  mode: driving
+
+---
+Run_7:
+  id: 1375
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 10:00:04.470499000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-03 10:00:04.470499000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 10:00:04.470499000 Z
+    zone: *1
+    time: 2021-04-03 10:00:04.470499000 Z
+  mode: driving
+
+---
+Run_8:
+  id: 1376
+  ltn_id: 1
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 11:00:02.402290000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-03 11:00:02.402290000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 11:00:02.402290000 Z
+    zone: *1
+    time: 2021-04-03 11:00:02.402290000 Z
+  mode: driving
+
+---
+Run_9:
+  id: 1378
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 11:00:04.525674000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-03 11:00:04.525674000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-03 11:00:04.525674000 Z
+    zone: *1
+    time: 2021-04-03 11:00:04.525674000 Z
+  mode: driving
+
+---
+Run_10:
+  id: 1726
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-10 15:00:04.656667000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-10 15:00:04.656667000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-10 15:00:04.656667000 Z
+    zone: *1
+    time: 2021-04-10 15:00:04.656667000 Z
+  mode: driving
+
+---
+Run_11:
+  id: 1783
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-11 18:00:04.726047000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-11 18:00:04.726047000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-11 18:00:04.726047000 Z
+    zone: *1
+    time: 2021-04-11 18:00:04.726047000 Z
+  mode: driving
+
+---
+Run_12:
+  id: 1822
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-12 15:00:03.889036000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-12 15:00:03.889036000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-12 15:00:03.889036000 Z
+    zone: *1
+    time: 2021-04-12 15:00:03.889036000 Z
+  mode: driving
+
+---
+Run_13:
+  id: 1882
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-13 15:30:03.991417000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-13 15:30:03.991417000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-13 15:30:03.991417000 Z
+    zone: *1
+    time: 2021-04-13 15:30:03.991417000 Z
+  mode: driving
+
+---
+Run_14:
+  id: 1975
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-15 06:00:03.930323000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-04-15 06:00:03.930323000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-04-15 06:00:03.930323000 Z
+    zone: *1
+    time: 2021-04-15 06:00:03.930323000 Z
+  mode: driving
+
+---
+Run_15:
+  id: 3256
+  ltn_id: 3
+  time: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-05-04 12:00:04.207068000 Z
+    zone: &1 !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: 2021-05-04 12:00:04.207068000 Z
+  finished_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: 2021-05-04 12:00:04.207068000 Z
+    zone: *1
+    time: 2021-05-04 12:00:04.207068000 Z
+  mode: driving
+

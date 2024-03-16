@@ -1,0 +1,319 @@
+---
+Journey_1:
+  id: 1
+  ltn_id: 1
+  origin_lat: !ruby/object:BigDecimal 27:0.51444084e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.8521915e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.51451654e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9603918e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_2:
+  id: 7
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5142859621e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.8631476e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5143599399e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9056338e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_3:
+  id: 8
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5143599399e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.9056338e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144109014e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9292373e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_4:
+  id: 9
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144109014e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.9292373e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144664711e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.959278e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_5:
+  id: 10
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144664711e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.959278e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5145035806e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.10071286e0
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_6:
+  id: 11
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5145035806e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.10071286e0
+  dest_lat: !ruby/object:BigDecimal 27:0.5145254194e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.1013996e0
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_7:
+  id: 12
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144600198e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.1051028e0
+  dest_lat: !ruby/object:BigDecimal 27:0.5145035806e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.10071286e0
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_8:
+  id: 13
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144098842e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.10621023e0
+  dest_lat: !ruby/object:BigDecimal 27:0.5144104861e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9293866e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_9:
+  id: 14
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144104861e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.9293866e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144185175e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.8439158e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_10:
+  id: 15
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144185175e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.8439158e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144328754e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.6755718e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_11:
+  id: 16
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5143914327e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.5396028e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144328754e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.6755718e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_12:
+  id: 17
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144328754e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.6755718e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144916045e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.7434506e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_13:
+  id: 18
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144916045e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.7434506e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5145981392e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.7525259e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_14:
+  id: 19
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5145981392e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.7525259e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5146161674e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.8005491e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_15:
+  id: 20
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5146161674e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.8005491e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5146745789e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9104571e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_16:
+  id: 21
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5145254194e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.1013996e0
+  dest_lat: !ruby/object:BigDecimal 27:0.5145303002e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.8744817e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_17:
+  id: 22
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5145303002e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.8744817e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5145981392e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.7525259e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_18:
+  id: 23
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5145254194e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.1013996e0
+  dest_lat: !ruby/object:BigDecimal 27:0.5146745789e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9104571e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_19:
+  id: 24
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5145981392e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.7525259e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5146241298e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.666302e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_20:
+  id: 25
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144916045e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.7434506e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5146241298e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.666302e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_21:
+  id: 26
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144568889e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.9858277e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.514587994e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.8115554e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_22:
+  id: 27
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144916045e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.7434506e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.514587994e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.8115554e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_23:
+  id: 28
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144644405e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.855329e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5145223708e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9595145e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_24:
+  id: 29
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144847543e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.10225081e0
+  dest_lat: !ruby/object:BigDecimal 27:0.5144568889e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9858277e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_25:
+  id: 30
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144568889e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.9858277e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144042428e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.96071e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_26:
+  id: 31
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144042428e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.96071e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5143568923e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9388232e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_27:
+  id: 32
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5143940776e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.9800219e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5144042428e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.96071e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_28:
+  id: 33
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5143940776e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.9800219e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5143699185e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9429894e-1
+  disabled: true
+  type: frequently_routed
+
+---
+Journey_29:
+  id: 34
+  ltn_id: 3
+  origin_lat: !ruby/object:BigDecimal 27:0.5144042428e2
+  origin_lng: !ruby/object:BigDecimal 18:-0.96071e-1
+  dest_lat: !ruby/object:BigDecimal 27:0.5143699185e2
+  dest_lng: !ruby/object:BigDecimal 18:-0.9429894e-1
+  disabled: true
+  type: frequently_routed
+
