@@ -81,4 +81,10 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  config.action_mailer.delivery_method = :mailjet
+  config.action_mailer.mailjet_settings = {
+    api_key: ENV['MAILJET_API_KEY'],
+    secret_key: ENV['MAILJET_SECRET_KEY']
+  }
 end

@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<%= ltn.scheme_name %>
+<% @ltn.journeys.each %>
+
+<% end %>
+
+<div>
+  <%= link_to "Edit this ltn", edit_ltn_path(@ltn) %> |
+  <%= link_to "Back to ltns", ltns_path %>
+
+  <%= button_to "Destroy this ltn", @ltn, method: :delete %>
+</div>

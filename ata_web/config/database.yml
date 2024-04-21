@@ -81,7 +81,7 @@ production:
   <<: *default
   pool: 5
   timeout: 5000
-  username: postgres
+  username: asker
   password: <%= ENV["ATA_WEB_DATABASE_PASSWORD"] %>
   database: ltns
   host: <%= ENV["ATA_WEB_DATABASE_HOST"] %>
