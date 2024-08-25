@@ -1,0 +1,7 @@
+%h1= "New Journey for #{@ltn.scheme_name}"
+
+= render "form", journey: @journey
+
+%br
+
+= link_to "Back to #{@ltn.scheme_name}", ltn_path(@ltn)

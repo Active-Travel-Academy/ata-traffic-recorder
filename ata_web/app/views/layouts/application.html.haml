@@ -1,0 +1,37 @@
+!!!
+%html
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Active Travel - Web
+    %meta{content: "width=device-width,initial-scale=1", name: "viewport"}/
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+    %link{rel: "stylesheet", href: "https://unpkg.com/leaflet@#{Leaflet::VERSION}/dist/leaflet.css"}
+    %link{rel:"stylesheet", href: "https://unpkg.com/leaflet-draw@#{Leaflet::DRAW_VERSION}/dist/leaflet.draw.css"}
+    %script{src: "https://unpkg.com/leaflet@#{Leaflet::VERSION}/dist/leaflet.js"}
+    %script{src: "https://unpkg.com/leaflet-draw@#{Leaflet::DRAW_VERSION}/dist/leaflet.draw.js"}
+
+    = favicon_link_tag
+  %body
+    %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      .container-fluid
+        = link_to 'Active Travel', root_path, class: 'navbar-brand'
+        %button.navbar-toggler{"aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNav", "data-bs-toggle" => "collapse", type: "button"}
+          %span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+          %ul.navbar-nav.ms-auto
+            - if user_signed_in?
+              %li.nav-item
+                = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'nav-link'
+    .container.mt-4
+      - flash.each do |type, message|
+        %div{class: "alert alert-#{bootstrap_class_for(type)} alert-dismissible fade show", role: "alert"}
+          = message
+          %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", type: "button"}
+      = yield
+    - if @ltn
+      #scheme-default{ "data-lat" => @ltn.default_lat, "data-lng" => @ltn.default_lng }
+    %footer.bg-dark.text-white.text-center.p-3.mt-5
+      © #{Time.now.year} Active Travel. All rights reserved.

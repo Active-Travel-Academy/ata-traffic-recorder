@@ -1,0 +1,17 @@
+= simple_form_for [journey.ltn, journey] do |f|
+  = f.input :type, include_blank: false
+  = f.input :disabled
+  = f.input :origin_lat, as: :hidden
+  = f.input :origin_lng, as: :hidden
+  = f.input :dest_lat, as: :hidden
+  = f.input :dest_lng, as: :hidden
+  = f.input :waypoint_lat, as: :hidden
+  = f.input :waypoint_lng, as: :hidden
+  %div Origin point
+  .edit_map{data: {form_prefix: "journey_origin"}}
+  %div Destination point
+  .edit_map{data: {form_prefix: "journey_dest"}}
+  %div [Optional] Waypoint point
+  .edit_map{data: {form_prefix: "journey_waypoint"}}
+
+  = f.button :submit

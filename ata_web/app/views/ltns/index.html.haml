@@ -1,0 +1,9 @@
+%h1 Traffic Schemes
+#ltns
+  - @ltns.each do |ltn|
+    %div{id: "#{dom_id ltn}"}
+      %p
+        %strong Scheme:
+        = link_to ltn.scheme_name, ltn
+.mt-6
+  = button_to "New scheme", new_ltn_path, method: :get, class: "btn btn-primary"

@@ -1,0 +1,8 @@
+= simple_form_for ltn do |f|
+  = f.input :scheme_name
+  = f.input :default_lat, as: :hidden
+  = f.input :default_lng, as: :hidden
+  %div Default point in scheme (when creating journeys this will be used as a starting point)
+  .edit_map{data: {form_prefix: "ltn_default"}}
+
+  = f.button :submit

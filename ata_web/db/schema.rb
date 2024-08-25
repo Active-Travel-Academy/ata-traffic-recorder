@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_21_190217) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_25_194717) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +18,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_21_190217) do
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "journey_type", ["frequently_routed", "infrequently_routed", "test_routing"]
   create_enum "run_mode", ["driving", "walking", "bicycling"]
+
+  create_table "default_timings", id: :serial, force: :cascade do |t|
+    t.string "timing", null: false
+    t.check_constraint "id = 1", name: "default_timings_id_check"
+  end
 
   create_table "journey_runs", force: :cascade do |t|
     t.bigint "journey_id", null: false
@@ -49,6 +54,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_21_190217) do
   create_table "ltns", force: :cascade do |t|
     t.string "scheme_name", null: false
     t.bigint "user_id"
+    t.float "default_lat"
+    t.float "default_lng"
     t.index ["user_id"], name: "index_ltns_on_user_id"
   end
 

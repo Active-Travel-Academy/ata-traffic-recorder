@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :ltns
+  resources :ltns do
+    resources :journey_run_downloads
+    resources :journeys
+  end
+
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

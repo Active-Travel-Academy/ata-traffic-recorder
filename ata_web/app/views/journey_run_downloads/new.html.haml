@@ -1,0 +1,7 @@
+%h1= "New Journey Run Download for #{@ltn.scheme_name}"
+
+= simple_form_for :data_download, url: ltn_journey_run_downloads_path(@ltn, format: :csv) do |f|
+  = f.input :from, html5: true, as: :date, input_html: {value: 1.month.ago}
+  = f.input :to, html5: true, as: :date, input_html: {value: Time.current}
+  = f.input :overview_polyline, as: :boolean
+  = f.button :submit

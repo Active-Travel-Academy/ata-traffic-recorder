@@ -21,10 +21,11 @@ class LtnsController < ApplicationController
 
   # POST /ltns
   def create
-    @ltn = Ltn.new(ltn_params)
+    @ltn = current_user.ltns.build(ltn_params)
+    binding.irb
 
     if @ltn.save
-      redirect_to @ltn, notice: "Ltn was successfully created."
+      redirect_to @ltn, notice: "Scheme was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -32,6 +33,7 @@ class LtnsController < ApplicationController
 
   # PATCH/PUT /ltns/1
   def update
+
     if @ltn.update(ltn_params)
       redirect_to @ltn, notice: "Ltn was successfully updated.", status: :see_other
     else
@@ -53,6 +55,6 @@ class LtnsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ltn_params
-      params.require(:ltn).permit(:scheme_name)
+      params.require(:ltn).permit(:scheme_name, :default_lat, :default_lng)
     end
 end
