@@ -18,10 +18,13 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  port: 5432
 
 development:
   <<: *default
   database: ltns
+  username: <%= Rails.application.credentials.config[:db][:username] %>
+  password: <%= Rails.application.credentials.config[:db][:password] %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -81,7 +84,7 @@ production:
   <<: *default
   pool: 5
   timeout: 5000
-  username: asker
-  password: <%= ENV["ATA_WEB_DATABASE_PASSWORD"] %>
+  username: <%= Rails.application.credentials.config[:db][:username] %>
+  password: <%= Rails.application.credentials.config[:db][:password] %>
   database: ltns
-  host: <%= ENV["ATA_WEB_DATABASE_HOST"] %>
+  host: <%= Rails.application.credentials.config[:db][:host] %>

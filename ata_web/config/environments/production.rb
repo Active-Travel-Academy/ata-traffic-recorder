@@ -59,7 +59,7 @@ Rails.application.configure do
   # "info" includes generic and useful information about system operation, but avoids logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII). If you
   # want to log everything, set the level to "debug".
-  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "debug")
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -84,7 +84,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :mailjet
   config.action_mailer.mailjet_settings = {
-    api_key: ENV['MAILJET_API_KEY'],
-    secret_key: ENV['MAILJET_SECRET_KEY']
+    api_key: Rails.application.credentials.config[:mailjet_api_key],
+    secret_key: Rails.application.credentials.config[:mailjet_secret_key],
   }
 end
