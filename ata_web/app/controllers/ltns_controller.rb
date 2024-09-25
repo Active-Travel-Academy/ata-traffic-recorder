@@ -22,7 +22,6 @@ class LtnsController < ApplicationController
   # POST /ltns
   def create
     @ltn = current_user.ltns.build(ltn_params)
-    binding.irb
 
     if @ltn.save
       redirect_to @ltn, notice: "Scheme was successfully created."

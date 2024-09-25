@@ -3,7 +3,7 @@ document.addEventListener('turbo:load', () => {
     let lat = 51.505
     let lng = -0.09
     const schemeEl = document.getElementById('scheme-default')
-    if (schemeEl) {
+    if (schemeEl && schemeEl.dataset && schemeEl.dataset.lat) {
       lat = schemeEl.dataset.lat
       lng = schemeEl.dataset.lng
     }

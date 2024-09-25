@@ -4,7 +4,6 @@ class JourneyRun < ApplicationRecord
   belongs_to :run
 
   def self.to_csv(from:, to:, ltn:, overview_polyline: false)
-    binding.irb
     raise unless to.is_a?(Date)
     raise unless from.is_a?(Date)
     raise unless from < to
