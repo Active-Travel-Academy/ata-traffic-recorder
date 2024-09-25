@@ -41,6 +41,7 @@ gem "ffi", "= 1.16.3" # ffi 1.17 wouldn't install
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug"
+  gem 'rspec-rails'
 end
 
 group :development do
