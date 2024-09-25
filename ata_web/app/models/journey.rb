@@ -5,6 +5,15 @@ class Journey < ApplicationRecord
 
   validates :type, presence: true
 
+  CREATE_PARAMS = %w[origin_lat origin_lng dest_lat dest_lng waypoint_lat waypoint_lng].freeze
+  def self.create_from_csv(file, scheme)
+    transaction do
+      CSV.foreach(file, headers: true) do |row|
+        scheme.journeys.create!(row.to_h.slice(*CREATE_PARAMS))
+      end
+    end
+  end
+
   def map_data
     {
       origin_lat: origin_lat, origin_lng: origin_lng,

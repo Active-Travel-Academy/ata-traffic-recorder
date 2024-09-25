@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :ltns do
     resources :journey_run_downloads
+    resources :journeys_uploads, only: :create
     resources :journeys
   end
 

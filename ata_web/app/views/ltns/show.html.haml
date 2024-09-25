@@ -20,6 +20,14 @@
   = link_to "Download Journey Runs", new_ltn_journey_run_download_path(@ltn)
 
 .my-4
+  Upload a CSV file with your journeys.  It must have the headers in this format:
+  %a{href: "/journeys_upload.csv"} journeys_upload.csv
+  .col-3
+    = simple_form_for :journeys_upload, url: ltn_journeys_uploads_path(@ltn) do |f|
+      = f.input :file, as: :file, input_html: { accept: "text/csv" }
+      = f.submit "Upload new journeys"
+
+.my-5
   = link_to "New journey", new_ltn_journey_path(@ltn), class: "btn btn-primary"
 
 .my-4

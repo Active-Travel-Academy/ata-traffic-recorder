@@ -1,0 +1,3 @@
+origin_lat,origin_lng,dest_lat,dest_lng,waypoint_lat,waypoint_lng,"NOTE: type must be either: frequently_routed, infrequently_routed or test_routing"
+0.0,0.0,0.1,0.1,
+0.0,0.0,0.2,0.2,0.1,0.1
