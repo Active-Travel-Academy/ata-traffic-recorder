@@ -1,0 +1,28 @@
+# Ignore itself
+.gcloudignore
+
+# Ignore git files
+.git
+.gitignore
+
+# Ignore gems installed by Travis CI
+/vendor/bundle
+
+# Ignore other local Rails files
+.tool-versions
+/.bundle
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+/storage/*
+!/storage/.keep
+.byebug_history
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
