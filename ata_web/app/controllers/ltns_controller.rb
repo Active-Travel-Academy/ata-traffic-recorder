@@ -34,7 +34,7 @@ class LtnsController < ApplicationController
   def update
 
     if @ltn.update(ltn_params)
-      redirect_to @ltn, notice: "Ltn was successfully updated.", status: :see_other
+      redirect_to @ltn, notice: "Scheme was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,7 +43,7 @@ class LtnsController < ApplicationController
   # DELETE /ltns/1
   def destroy
     @ltn.destroy!
-    redirect_to ltns_url, notice: "Ltn was successfully destroyed.", status: :see_other
+    redirect_to ltns_path, notice: "Scheme was successfully destroyed.", status: :see_other
   end
 
   private

@@ -24,10 +24,8 @@
               %li.nav-item
                 = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'nav-link'
     .container.mt-4
-      - flash.each do |type, message|
-        %div{class: "alert alert-#{bootstrap_class_for(type)} alert-dismissible fade show", role: "alert"}
-          = message
-          %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", type: "button"}
+      %div{id: "flash-messages"}
+        = render "shared/flash", locals: { flash: flash }
       = yield
     - if @ltn
       #scheme-default{ "data-lat" => @ltn.default_lat, "data-lng" => @ltn.default_lng }
