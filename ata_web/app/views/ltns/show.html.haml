@@ -1,24 +1,19 @@
 %h1= "Scheme: #{@ltn.scheme_name}"
 
-%h2 Journeys
-.container
-  .row
-    .col-sm-2 Disabled
-    .col-sm-2 Journey ID
-    .col-sm-2 Journey Type
-- @ltn.journeys.each do |journey|
-  .row
-    .col-sm-2
-      = simple_form_for [@ltn, journey], data: { turbo: true } do |f|
-        = f.input :disabled, input_html: { onchange: "this.form.requestSubmit();" }, hint: false, label: false
-    .col-sm-2
-      = link_to "[#{journey.id}]", [@ltn, journey]
-    .col-sm-2
-      = journey.type
-
 .my-4
   = link_to "Download Journey Runs", new_ltn_journey_run_download_path(@ltn)
 
+
+%h2 Journeys
+!= pagy_bootstrap_nav(@pagy)
+.container
+  .row
+    .col-sm-2.text-center Disabled
+    .col-sm-6.text-center Journey Name
+    .col-sm-4.text-center Journey ID
+#journeys
+  = render @journeys
+!= pagy_bootstrap_nav(@pagy)
 .my-4
   Upload a CSV file with your journeys.  It must have the headers in this format:
   %a{href: "/journeys_upload.csv"} journeys_upload.csv

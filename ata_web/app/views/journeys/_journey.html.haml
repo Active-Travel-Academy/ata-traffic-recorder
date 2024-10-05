@@ -1,0 +1,7 @@
+.row
+  .col-sm-2.d-flex.justify-content-center
+    = simple_form_for [@ltn, journey], data: { turbo: true } do |f|
+      = f.input :disabled, input_html: { onchange: "this.form.requestSubmit();" }, hint: false, label: false
+  .col-sm-6.text-center
+  .col-sm-4.text-center
+    = link_to "[#{journey.id}]", [@ltn, journey]

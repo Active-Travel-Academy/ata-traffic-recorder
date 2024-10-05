@@ -8,6 +8,7 @@ class LtnsController < ApplicationController
 
   # GET /ltns/1
   def show
+    @pagy, @journeys = pagy(@ltn.journeys.order(:id), limit: 50)
   end
 
   # GET /ltns/new
