@@ -14,6 +14,8 @@
     .col-sm-1.text-center Disabled
     .col-sm-5.text-center Journey Name
     .col-sm-3.text-center Journey ID
+    - if @show_journey_type
+      .col-sm-2.text-center Journey Type
 #journeys
   = render @journeys
 != pagy_bootstrap_nav(@pagy)

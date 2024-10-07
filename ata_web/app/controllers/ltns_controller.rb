@@ -9,6 +9,7 @@ class LtnsController < ApplicationController
   # GET /ltns/1
   def show
     @pagy, @journeys = pagy(@ltn.journeys.order(:id), limit: 50)
+    @show_journey_type = @journeys.any? { |jo| jo.type == "frequently_routed" }
   end
 
   # GET /ltns/new

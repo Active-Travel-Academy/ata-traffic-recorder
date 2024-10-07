@@ -5,3 +5,5 @@
   .col-sm-5.text-center= journey.name&.truncate(100)
   .col-sm-3.text-center
     = link_to "[#{journey.id}]", [@ltn, journey]
+  - if @show_journey_type
+    .col-sm-2.text-center= journey.type
