@@ -11,10 +11,15 @@ class JourneysController < ApplicationController
 
   def create
     @journey = @ltn.journeys.build(permitted_params)
+    if ActiveRecord::Type::Boolean.new.cast(params[:journey][:route_straight_away])
+      journey.type = :test_routing
+    else
+      journey.type = :infrequently_routed
+    end
     if @journey.save
       redirect_to @ltn, notice: "#{@journey.display_name} successfully created."
     else
-      render :new
+      render :new, status: 422
     end
   end
 

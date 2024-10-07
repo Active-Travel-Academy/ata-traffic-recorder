@@ -7,6 +7,8 @@ class Journey < ApplicationRecord
 
   validates :type, :origin_lat, :origin_lng, :dest_lat, :dest_lng, presence: true
 
+  attr_accessor :route_straight_away
+
   CREATE_PARAMS = %w[origin_lat origin_lng dest_lat dest_lng name].freeze
   def self.create_from_csv(file, scheme)
     transaction do

@@ -1,4 +1,7 @@
-document.addEventListener('turbo:load', () => {
+const pgLoad = () => {
+  if (window.mapsRendered) {
+    return
+  }
   Array.from(document.getElementsByClassName('edit_map')).forEach( (mapEl) => {
     let lat = 51.505
     let lng = -0.09
@@ -75,4 +78,9 @@ document.addEventListener('turbo:load', () => {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
   })
-});
+  window.mapsRendered = true
+}
+// On 422 unprocessable_entity turbo seems to render but not load,
+// otherwise it seems to load and not render...
+document.addEventListener('turbo:load', pgLoad)
+document.addEventListener('turbo:render', pgLoad)

@@ -1,5 +1,6 @@
 = simple_form_for [journey.ltn, journey] do |f|
   = f.input :name
+  = f.input :route_straight_away, as: :boolean
   = f.input :disabled
   = f.input :origin_lat, as: :hidden
   = f.input :origin_lng, as: :hidden

@@ -14,6 +14,8 @@ en:
     hints:
       journey:
         disabled: Disabling will stop routing.
+        route_straight_away:
+          Will run straight away then be disabled. Useful to check how it routes.
         name: Optional name
     #   defaults:
     #     password: 'Password'
