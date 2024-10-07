@@ -12,7 +12,7 @@ class JourneysController < ApplicationController
   def create
     @journey = @ltn.journeys.build(permitted_params)
     if @journey.save
-      redirect_to @ltn, notice: "Journey successfully created."
+      redirect_to @ltn, notice: "#{@journey.display_name} successfully created."
     else
       render :new
     end
@@ -20,8 +20,10 @@ class JourneysController < ApplicationController
 
   def update
     if journey.update!(update_params)
-      if update_params.keys.include? "disabled"
-        flash.now[:notice] = "Journey [#{journey.id}] is now #{journey.disabled ? 'disabled' : 'enabled'}"
+      if update_params.keys == ["disabled"]
+        flash.now[:notice] = "#{journey.display_name} is now #{journey.disabled ? 'disabled' : 'enabled'}"
+      else
+        flash.now[:notice] = "#{journey.display_name} updated"
       end
     else
       flash.now[:alert] = "Something went wrong"
@@ -53,10 +55,10 @@ class JourneysController < ApplicationController
   end
 
   def permitted_params
-    params.require(:journey).permit(:type, :origin_lat, :origin_lng, :dest_lat, :dest_lng)
+    params.require(:journey).permit(:origin_lat, :origin_lng, :dest_lat, :dest_lng, :name)
   end
 
   def update_params
-    params.require(:journey).permit(:type, :disabled)
+    params.require(:journey).permit(:disabled, :name)
   end
 end

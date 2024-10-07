@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_25_140239) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_05_190226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_25_140239) do
     t.decimal "waypoint_lat", precision: 11, scale: 8
     t.decimal "waypoint_lng", precision: 11, scale: 8
     t.enum "type", default: "test_routing", null: false, enum_type: "journey_type"
+    t.string "name"
     t.index ["ltn_id"], name: "journeys_ltn_id", where: "(NOT disabled)"
     t.index ["type"], name: "journeys_type"
     t.check_constraint "waypoint_lat IS NULL AND waypoint_lng IS NULL OR waypoint_lat IS NOT NULL AND waypoint_lng IS NOT NULL", name: "both_or_neither_waypoints"

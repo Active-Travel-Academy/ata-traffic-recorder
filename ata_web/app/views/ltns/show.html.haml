@@ -5,12 +5,15 @@
 
 
 %h2 Journeys
+
+= t "journey_run_info"
+
 != pagy_bootstrap_nav(@pagy)
 .container
   .row
-    .col-sm-2.text-center Disabled
-    .col-sm-6.text-center Journey Name
-    .col-sm-4.text-center Journey ID
+    .col-sm-1.text-center Disabled
+    .col-sm-5.text-center Journey Name
+    .col-sm-3.text-center Journey ID
 #journeys
   = render @journeys
 != pagy_bootstrap_nav(@pagy)

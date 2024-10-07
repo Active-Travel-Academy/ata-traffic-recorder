@@ -29,3 +29,5 @@
 
 en:
   hello: "Hello world"
+  journey_run_info: "All enabled journeys run at 08:30, 13:00 and 17:30 Tue and 13:00 Sat."
+

@@ -13,11 +13,8 @@ en:
     # Examples
     hints:
       journey:
-        type:
-          Frequently routed runs lots during Tue morning rush-hour and then thoughout Tue.  It also runs on Sat.<br>
-          Infreqently runs 08:30, 13:00 and 17:30 Tue and 13:00 Sat.<br>
-          Test runs happen only once then are disabled.
         disabled: Disabling will stop routing.
+        name: Optional name
     #   defaults:
     #     password: 'Password'
     #   user:
