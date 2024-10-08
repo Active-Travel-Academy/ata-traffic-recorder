@@ -1,8 +1,8 @@
 const pgLoad = () => {
-  if (window.mapsRendered) {
-    return
-  }
-  Array.from(document.getElementsByClassName('edit_map')).forEach( (mapEl) => {
+  const tiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+  const tileOpts = { attribution: '© OpenStreetMap contributors' }
+
+  Array.from(document.querySelectorAll('.edit_map:not(.leaflet-container)')).forEach( (mapEl) => {
     let lat = 51.505
     let lng = -0.09
     const schemeEl = document.getElementById('scheme-default')
@@ -14,9 +14,7 @@ const pgLoad = () => {
     const map = L.map(mapEl).setView([lat, lng], 13);
 
     // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    L.tileLayer(tiles, tileOpts).addTo(map);
 
     // Initialize Leaflet Draw
     var drawnItems = new L.FeatureGroup();
@@ -56,7 +54,7 @@ const pgLoad = () => {
     });
   })
 
-  Array.from(document.getElementsByClassName('show_map')).forEach( (mapEl) => {
+  Array.from(document.querySelectorAll('.show_map:not(.leaflet-container)')).forEach( (mapEl) => {
 
     const map = L.map(mapEl)
 
@@ -74,11 +72,25 @@ const pgLoad = () => {
 
     map.fitBounds(group.getBounds().pad(0.5))
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    L.tileLayer(tiles, tileOpts).addTo(map);
   })
-  window.mapsRendered = true
+
+  Array.from(document.querySelectorAll('.journey_run_map:not(.leaflet-container)')).forEach( (mapEl) => {
+    const map = L.map(mapEl)
+
+    const pntsArray = JSON.parse(mapEl.dataset.line)
+    const pnts = pntsArray.map((pnt) => new L.LatLng(pnt[0], pnt[1]))
+
+    const pline = new L.Polyline(pnts, {
+        color: 'red',
+        weight: 3,
+        opacity: 0.7,
+    })
+    pline.addTo(map);
+    map.fitBounds(pline.getBounds().pad(0.5))
+
+    L.tileLayer(tiles, tileOpts).addTo(map);
+  })
 }
 // On 422 unprocessable_entity turbo seems to render but not load,
 // otherwise it seems to load and not render...

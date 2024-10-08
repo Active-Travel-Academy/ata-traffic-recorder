@@ -35,4 +35,10 @@ class JourneyRun < ApplicationRecord
       end
     end
   end
+
+  def map_data
+    {
+      line: overview_polyline
+    }
+  end
 end

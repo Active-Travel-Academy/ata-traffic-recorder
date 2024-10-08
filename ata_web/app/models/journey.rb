@@ -3,6 +3,8 @@ class Journey < ApplicationRecord
   enum :type, { frequently_routed: 'frequently_routed', infrequently_routed: 'infrequently_routed', test_routing: 'test_routing' }
   belongs_to :ltn
 
+  has_many :journey_runs
+
   before_save :trim_name
 
   validates :type, :origin_lat, :origin_lng, :dest_lat, :dest_lng, presence: true

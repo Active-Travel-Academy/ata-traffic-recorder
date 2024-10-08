@@ -12,5 +12,15 @@
   = @journey.display_name
   .show_map{data: @journey.map_data}
 
-.my-4
-  = link_to "Destroy this Journey", [@ltn, @journey], class: "btn btn-danger", method: :delete, confirm: true
+%p.my-1
+  - runs = @journey.journey_runs.last(3)
+  - if runs.present?
+    = "Last #{runs.size} runs:"
+    .row
+      - @journey.journey_runs.last(3).each do |run|
+        .col-sm-3
+          %span= "Run at #{run.created_at}"
+          .journey_run_map{data: run.map_data}
+        .col-sm-1
+  - else
+    = link_to "Destroy this Journey", [@ltn, @journey], class: "btn btn-danger", method: :delete, confirm: true
