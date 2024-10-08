@@ -1,5 +1,5 @@
 class LtnsController < ApplicationController
-  before_action :set_ltn, only: %i[ show edit update destroy ]
+  before_action :set_ltn, except: %i[ index new create ]
 
   # GET /ltns
   def index
@@ -48,7 +48,25 @@ class LtnsController < ApplicationController
     redirect_to ltns_path, notice: "Scheme was successfully destroyed.", status: :see_other
   end
 
+  def enable_all_journeys
+    all_journeys.enable_all!
+    redirect_to action: :show, id: @ltn.id, page: all_journeys_params[:page]
+  end
+
+  def disable_all_journeys
+    all_journeys.disable_all!
+    redirect_to action: :show, id: @ltn.id, page: all_journeys_params[:page]
+  end
+
   private
+
+  def all_journeys_params
+    { journey_ids: JSON.parse(params[:all_journeys][:journey_ids]), page: params[:all_journeys][:page] }
+  end
+
+  def all_journeys
+    @ltn.journeys.where(id: all_journeys_params[:journey_ids])
+  end
     # Use callbacks to share common setup or constraints between actions.
     def set_ltn
       @ltn = current_user.ltns.find(params[:id])

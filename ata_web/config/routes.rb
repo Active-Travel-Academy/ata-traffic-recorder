@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :ltns do
+    member do
+      post :enable_all_journeys
+      post :disable_all_journeys
+    end
     resources :journey_run_downloads
     resources :journeys_uploads, only: :create
     resources :journeys

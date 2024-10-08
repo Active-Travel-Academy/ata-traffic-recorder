@@ -6,7 +6,8 @@
 
 %h2 Journeys
 
-= t "journey_run_info"
+%p
+  = t "journey_run_info"
 
 != pagy_bootstrap_nav(@pagy)
 .container
@@ -18,14 +19,30 @@
       .col-sm-2.text-center Journey Type
 #journeys
   = render @journeys
-!= pagy_bootstrap_nav(@pagy)
-.my-4
+
+.my-1
+  != pagy_bootstrap_nav(@pagy)
+
+.my-1
+
+- if @journeys.any?(&:disabled)
+  = simple_form_for :all_journeys, url: [:enable_all_journeys, @ltn] do |f|
+    = f.input :journey_ids, input_html: { value: @journeys.map(&:id).to_json }, as: :hidden
+    = f.input :page, input_html: { value: @pagy.page }, as: :hidden
+    = f.button :submit, "Enable all journeys", data: { confirm: "This will enable all journeys on this page. Are you sure?" }
+- else
+  = simple_form_for :all_journeys, url: [:disable_all_journeys, @ltn] do |f|
+    = f.input :journey_ids, input_html: { value: @journeys.map(&:id).to_json }, as: :hidden
+    = f.input :page, input_html: { value: @pagy.page }, as: :hidden
+    = f.button :submit, "Disable all journeys", data: { confirm: "This will disable all journeys on this page. Are you sure?" }
+
+%hr.my-4
   Upload a CSV file with your journeys.  It must have the headers in this format:
   %a{href: "/journeys_upload.csv"} journeys_upload.csv
   .col-3
     = simple_form_for :journeys_upload, url: ltn_journeys_uploads_path(@ltn) do |f|
       = f.input :file, as: :file, input_html: { accept: "text/csv" }
-      = f.submit "Upload new journeys"
+      = f.button :submit, "Upload new journeys"
 
 .my-5
   = link_to "New journey", new_ltn_journey_path(@ltn), class: "btn btn-primary"

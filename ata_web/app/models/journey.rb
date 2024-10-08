@@ -20,6 +20,14 @@ class Journey < ApplicationRecord
     end
   end
 
+  def self.enable_all!
+    where(disabled: true).update_all(disabled: false, updated_at: Time.current)
+  end
+
+  def self.disable_all!
+    where(disabled: false).update_all(disabled: true, updated_at: Time.current)
+  end
+
   def display_name
     "#{name || 'Journey'} [#{id}]"
   end
