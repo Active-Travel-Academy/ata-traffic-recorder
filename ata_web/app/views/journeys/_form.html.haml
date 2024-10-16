@@ -1,7 +1,8 @@
 = simple_form_for [journey.ltn, journey] do |f|
   = f.input :name
-  = f.input :route_straight_away, as: :boolean
-  = f.input :enabled, as: :boolean
+  = f.input :route_straight_away, as: :radio_buttons, legend_tag: false,
+    collection: [['Test route</br><span class="form-text">It will route straight away, then be disabled. Useful to check how it routes, then enable it manually if correct.</span>'.html_safe, '1'],
+    ['Route normally</br><span class="form-text">It will be created "enabled" and first be routed at the next standard routing time, alongside all other enabled routes. Useful if you don’t need to check it.</span>'.html_safe, '0']]
   = f.input :origin_lat, as: :hidden
   = f.input :origin_lng, as: :hidden
   = f.input :dest_lat, as: :hidden
