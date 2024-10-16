@@ -61,8 +61,10 @@ const pgLoad = () => {
     const pts = mapEl.dataset
 
     const markers = []
-    markers.push(new L.marker([pts.originLat, pts.originLng]).addTo(map))
-    markers.push(new L.marker([pts.destLat, pts.destLng]).addTo(map))
+    const orig = new L.marker([pts.originLat, pts.originLng], {title: 'Origin'}).addTo(map)
+    const dest = new L.marker([pts.destLat, pts.destLng], {title: 'Destination'}).addTo(map)
+    markers.push(orig)
+    markers.push(dest)
 
     if(pts.waypointLat) {
       markers.push(new L.marker([pts.waypointLat, pts.waypointLng]).addTo(map))
@@ -73,6 +75,8 @@ const pgLoad = () => {
     map.fitBounds(group.getBounds().pad(0.5))
 
     L.tileLayer(tiles, tileOpts).addTo(map);
+    orig._icon.style.filter = "hue-rotate(250deg)"
+    dest._icon.style.filter = "hue-rotate(140deg)"
   })
 
   Array.from(document.querySelectorAll('.journey_run_map:not(.leaflet-container)')).forEach( (mapEl) => {
@@ -82,9 +86,9 @@ const pgLoad = () => {
     const pnts = pntsArray.map((pnt) => new L.LatLng(pnt[0], pnt[1]))
 
     const pline = new L.Polyline(pnts, {
-        color: 'red',
-        weight: 3,
-        opacity: 0.7,
+        color: 'green',
+        weight: 4,
+        opacity: 0.6,
     })
     pline.addTo(map);
     map.fitBounds(pline.getBounds().pad(0.5))
