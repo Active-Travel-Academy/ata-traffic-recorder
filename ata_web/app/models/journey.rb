@@ -28,6 +28,14 @@ class Journey < ApplicationRecord
     where(disabled: false).update_all(disabled: true, updated_at: Time.current)
   end
 
+  def enabled
+    !disabled
+  end
+
+  def enabled=(enabled)
+    self.disabled = !enabled
+  end
+
   def display_name
     "#{name || 'Journey'} [#{id}]"
   end

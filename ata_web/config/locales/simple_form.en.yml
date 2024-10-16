@@ -13,9 +13,7 @@ en:
     # Examples
     hints:
       journey:
-        disabled: Disabling will stop routing.
-        route_straight_away:
-          Will run straight away then be disabled. Useful to check how it routes.
+        enabled: Only enabled journeys will be routed.
         name: Optional name
     #   defaults:
     #     password: 'Password'

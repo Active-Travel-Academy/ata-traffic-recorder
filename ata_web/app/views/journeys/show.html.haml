@@ -17,7 +17,7 @@
   - if runs.present?
     = "Last #{runs.size} runs:"
     .row
-      - @journey.journey_runs.last(3).each do |run|
+      - runs.each do |run|
         .col-sm-3
           %span= "Run at #{run.created_at}"
           .journey_run_map{data: run.map_data}
